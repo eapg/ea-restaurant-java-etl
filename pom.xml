@@ -30,6 +30,13 @@
             <version>1.15.0</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.24</version>
+            <scope>provided</scope>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -69,7 +76,6 @@
                     <verbose>false</verbose>
                     <filesNamePattern>.*\.java</filesNamePattern>
                     <skip>false</skip>
-                    <skipSourceDirectory>false</skipSourceDirectory>
                     <skipSortingImports>false</skipSortingImports>
                     <style>google</style>
                 </configuration>
