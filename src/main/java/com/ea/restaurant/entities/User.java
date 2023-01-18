@@ -1,12 +1,15 @@
 package com.ea.restaurant.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import com.ea.restaurant.constants.Roles;
+import com.ea.restaurant.constants.UserType;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+@NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 @Getter
 @Setter
@@ -18,8 +21,14 @@ public class User extends BaseEntity {
   @NotNull private String lastName;
   @NotNull private String username;
   @NotNull private String password;
-  @NotNull private String roles;
-  @NotNull private String type;
+
+  @NotNull
+  @Enumerated(EnumType.STRING)
+  private Roles roles;
+
+  @NotNull
+  @Enumerated(EnumType.STRING)
+  private UserType type;
 
   public User(Long id) {
     super(id);
