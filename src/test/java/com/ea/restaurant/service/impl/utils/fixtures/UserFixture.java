@@ -9,7 +9,6 @@ import java.util.Optional;
 
 public final class UserFixture {
 
-  public static final Long TESTING_USER_ID = 1L;
   public static final String TESTING_USER_NAME = "juan";
   public static final String TESTING_LASTNAME = "perez";
   public static final String TESTING_USER_USERNAME = "jp001";
@@ -17,13 +16,13 @@ public final class UserFixture {
   public static final Roles ROLES = Roles.ADMINISTRATOR;
   public static final UserType TYPE = UserType.INTERNAL;
   public static final Long CREATED_BY = 1L;
-  public static final Instant CREATED_DATE = Instant.now();
+  public static final Instant CREATED_DATE = Instant.EPOCH;
   public static final Long UPDATED_BY = 1L;
-  public static final Instant UPDATED_DATE = Instant.now();
+  public static final Instant UPDATED_DATE = Instant.EPOCH;
   public static final Status ENTITY_STATUS = Status.ACTIVE;
 
   public static User buildUser(User user) {
-    user.setId(Optional.ofNullable(user.getId()).orElse(TESTING_USER_ID));
+    user.setId(user.getId());
     user.setName(Optional.ofNullable(user.getName()).orElse(TESTING_USER_NAME));
     user.setLastName(Optional.ofNullable(user.getLastName()).orElse(TESTING_LASTNAME));
     user.setUsername(Optional.ofNullable(user.getUsername()).orElse(TESTING_USER_USERNAME));
