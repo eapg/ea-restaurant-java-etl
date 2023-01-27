@@ -15,7 +15,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 @SpringBootTest
-public class UserServiceE2ETest {
+public class UserServiceE2eTest {
 
   @Autowired private JdbcTemplate jdbcTemplate;
 

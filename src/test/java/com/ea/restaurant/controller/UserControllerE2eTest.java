@@ -19,7 +19,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
-public class UserControllerE2ETest {
+public class UserControllerE2eTest {
 
   @Autowired private JdbcTemplate jdbcTemplate;
 
