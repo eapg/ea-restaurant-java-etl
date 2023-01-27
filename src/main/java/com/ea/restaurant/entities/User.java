@@ -2,7 +2,10 @@ package com.ea.restaurant.entities;
 
 import com.ea.restaurant.constants.Roles;
 import com.ea.restaurant.constants.UserType;
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
