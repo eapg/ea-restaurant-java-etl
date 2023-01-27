@@ -31,3 +31,9 @@ to set pre-commit Hooks:
 * from main project directory move to hooks using `cd hooks`
 * copy pre-commit file and paste it in follow directory `C:\Users\your_user\IdeaProjects\ea-restaurant-java-etl\.git\hooks` using
 `cp pre-commit C:\Users\your_user\IdeaProjects\ea-restaurant-java-etl\.git\hooks`.
+
+## INTELLIJ setup
+
+* To avoid intellij to package imports instead of individual imports go to:
+  `File` -> `Setting` -> `Code Style` -> `Java` -> `imports` and change `Class count to use import with *` 
+   to 100 or a number that you know your project don't exceed. 
