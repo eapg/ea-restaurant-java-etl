@@ -47,7 +47,7 @@ public class GrpcUserServiceImplE2eTest {
     FindUserByIdRequest findUserByIdRequest =
         FindUserByIdRequest.newBuilder().setId(userSaved.getId()).build();
 
-    GrpcUser gRpcUserReturned = userServiceBlockingStub.findUserById(findUserByIdRequest);
-    Assertions.assertEquals(userToTest.getId(), gRpcUserReturned.getId());
+    GrpcUser grpcUserReturned = userServiceBlockingStub.findUserById(findUserByIdRequest);
+    Assertions.assertEquals(userToTest.getId(), grpcUserReturned.getId());
   }
 }

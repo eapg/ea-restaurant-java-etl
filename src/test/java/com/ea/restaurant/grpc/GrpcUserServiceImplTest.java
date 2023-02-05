@@ -26,13 +26,13 @@ class GrpcUserServiceImplTest {
   void whenFindUserById_shouldReturnExpectedUser() {
     var finUserByIdRequest = FindUserByIdRequest.newBuilder().setId(2L).build();
     var user = UserFixture.buildUser(2L);
-    var expectedGrpcUser = GrpcUserMapper.mapUserToGrpcUser(user);
     var mockedStreamObserver = GrpcUtils.<GrpcUser>getMockedStreamObserver();
     Mockito.when(this.userService.findEnabledById(Mockito.eq(user.getId())))
         .thenReturn(Optional.of(user));
     grpcUserService.findUserById(finUserByIdRequest, mockedStreamObserver);
     Mockito.verify(userService, Mockito.times(1)).findEnabledById(Mockito.eq(2L));
     Mockito.verify(mockedStreamObserver, Mockito.times(1)).onCompleted();
+    var expectedGrpcUser = GrpcUserMapper.mapUserToGrpcUser(user);
     Mockito.verify(mockedStreamObserver, Mockito.times(1)).onNext(Mockito.eq(expectedGrpcUser));
   }
 }
