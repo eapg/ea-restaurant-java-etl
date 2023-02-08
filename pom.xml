@@ -25,6 +25,7 @@
         <os-maven-plugin.version>1.6.1</os-maven-plugin.version>
         <protobuf-maven-plugin.version>0.6.1</protobuf-maven-plugin.version>
         <javax-annotation.version>1.2</javax-annotation.version>
+        <nimbus-jose-jwt.version>9.30.1</nimbus-jose-jwt.version>
     </properties>
 
     <dependencies>
@@ -77,6 +78,17 @@
             <groupId>javax.annotation</groupId>
             <artifactId>javax.annotation-api</artifactId>
             <version>${javax-annotation.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.nimbusds</groupId>
+            <artifactId>nimbus-jose-jwt</artifactId>
+            <version>${nimbus-jose-jwt.version}</version>
         </dependency>
 
     </dependencies>
