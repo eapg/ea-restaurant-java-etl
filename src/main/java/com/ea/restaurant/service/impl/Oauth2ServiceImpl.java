@@ -9,6 +9,7 @@ import com.ea.restaurant.entities.AppClient;
 import com.ea.restaurant.entities.AppRefreshToken;
 import com.ea.restaurant.exceptions.BcryptException;
 import com.ea.restaurant.exceptions.EntityNotFoundException;
+import com.ea.restaurant.exceptions.WrongCredentialsException;
 import com.ea.restaurant.repository.AppAccessTokenRepository;
 import com.ea.restaurant.repository.AppClientRepository;
 import com.ea.restaurant.repository.AppClientScopeRepository;
@@ -48,7 +49,7 @@ public class Oauth2ServiceImpl implements Oauth2Service {
     var client =
         this.appClientRepository
             .findByClientIdAndEntityStatus(clientId, Status.ACTIVE)
-            .orElseThrow(EntityNotFoundException::new);
+            .orElseThrow(WrongCredentialsException::new);
     var scopes =
         this.appClientScopeRepository
             .findByAppClientIdAndEntityStatus(client.getId(), Status.ACTIVE)
@@ -92,7 +93,7 @@ public class Oauth2ServiceImpl implements Oauth2Service {
     var client =
         this.appClientRepository
             .findByClientIdAndEntityStatus(clientId, Status.ACTIVE)
-            .orElseThrow(EntityNotFoundException::new);
+            .orElseThrow(WrongCredentialsException::new);
 
     if (!(BCrypt.checkpw(clientSecret, client.getClientSecret()))) {
       throw new BcryptException();
