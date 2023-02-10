@@ -1,7 +1,10 @@
 package com.ea.restaurant.entities;
 
+import com.ea.restaurant.constants.Oauth2;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -25,7 +28,11 @@ public class AppRefreshToken {
   private Long id;
 
   @NotNull private String token;
-  private String grantType;
+
+  @NotNull
+  @Enumerated(EnumType.STRING)
+  private Oauth2.GranType grantType;
+
   private Long appClientId;
 
   public AppRefreshToken(Long id) {

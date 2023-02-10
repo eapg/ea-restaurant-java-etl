@@ -16,7 +16,7 @@ import lombok.Setter;
 @Table(name = "app_clients_scopes")
 public class AppClientScope extends BaseEntity {
   @NotNull private Long appClientId;
-  @NotNull private String scope;
+  @NotNull private String scopes;
 
   public AppClientScope(Long id) {
     super(id);
