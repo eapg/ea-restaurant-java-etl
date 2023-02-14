@@ -18,7 +18,7 @@ Download and install the following tools:
 * To compile and run the spring boot application run the maven command `mvn  spring-boot:run`
 * To run checkstyle as linter run the maven command `mvn checkstyle::chek`
 * To run the Google java format as formatter run the maven command `mvn fmt:format`                                                                                                                       
-
+* To build `.java` files from `.proto` as part of gRPC implementation run the maven command `mvn compile`
 
 ## Pre-Commit Hooks
 
