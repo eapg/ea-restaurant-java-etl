@@ -1,4 +1,4 @@
-package com.ea.restaurant.utils;
+package com.ea.restaurant.util;
 
 import com.ea.restaurant.entities.User;
 import com.ea.restaurant.grpc.GrpcUser;

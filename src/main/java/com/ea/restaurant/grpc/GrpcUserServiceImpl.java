@@ -3,7 +3,7 @@ package com.ea.restaurant.grpc;
 import com.ea.restaurant.exceptions.EntityNotFoundException;
 import com.ea.restaurant.grpc.UserServiceGrpc.UserServiceImplBase;
 import com.ea.restaurant.service.UserService;
-import com.ea.restaurant.utils.GrpcUserMapper;
+import com.ea.restaurant.util.GrpcUserMapper;
 import io.grpc.stub.StreamObserver;
 import net.devh.boot.grpc.server.service.GrpcService;
 

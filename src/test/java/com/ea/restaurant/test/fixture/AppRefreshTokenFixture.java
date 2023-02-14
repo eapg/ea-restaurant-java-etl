@@ -1,7 +1,11 @@
-package com.ea.restaurant.utils.fixtures;
+package com.ea.restaurant.test.fixture;
 
 import com.ea.restaurant.constants.Oauth2;
+import com.ea.restaurant.entities.AppClient;
+import com.ea.restaurant.entities.AppClientScope;
 import com.ea.restaurant.entities.AppRefreshToken;
+import com.ea.restaurant.util.Oauth2Util;
+import com.nimbusds.jose.JOSEException;
 import java.util.Optional;
 
 public class AppRefreshTokenFixture {
@@ -32,5 +36,11 @@ public class AppRefreshTokenFixture {
   public static AppRefreshToken buildAppRefreshToken(Long id) {
     var appRefreshTokenExample = new AppRefreshToken(id);
     return buildAppRefreshToken(appRefreshTokenExample);
+  }
+
+  public static String buildRefreshToken(AppClient appClient, AppClientScope appClientScope)
+      throws JOSEException {
+    return Oauth2Util.buildClientCredentialsToken(
+        appClient, appClientScope, Oauth2Fixture.SECRET_KEY, Oauth2.TokenType.REFRESH_TOKEN);
   }
 }

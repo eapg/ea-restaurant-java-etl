@@ -1,7 +1,7 @@
 package com.ea.restaurant.grpc;
 
 import com.ea.restaurant.service.UserService;
-import com.ea.restaurant.service.impl.utils.fixtures.UserFixture;
+import com.ea.restaurant.test.fixture.UserFixture;
 import net.devh.boot.grpc.client.autoconfigure.GrpcClientAutoConfiguration;
 import net.devh.boot.grpc.client.inject.GrpcClient;
 import net.devh.boot.grpc.server.autoconfigure.GrpcServerAutoConfiguration;

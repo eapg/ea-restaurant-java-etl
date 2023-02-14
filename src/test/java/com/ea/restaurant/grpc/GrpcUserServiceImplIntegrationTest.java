@@ -2,9 +2,9 @@ package com.ea.restaurant.grpc;
 
 import com.ea.restaurant.repository.UserRepository;
 import com.ea.restaurant.service.impl.UserServiceImpl;
-import com.ea.restaurant.service.impl.utils.fixtures.UserFixture;
-import com.ea.restaurant.utils.GrpcUserMapper;
-import com.ea.restaurant.utils.GrpcUtils;
+import com.ea.restaurant.test.fixture.UserFixture;
+import com.ea.restaurant.test.util.GrpcTestUtil;
+import com.ea.restaurant.util.GrpcUserMapper;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -27,7 +27,7 @@ public class GrpcUserServiceImplIntegrationTest {
   void whenFindUserById_shouldReturnExpectedUserThroughGrpc() {
     var userToTest = UserFixture.buildUser(2L);
     var findUserByIdRequest = FindUserByIdRequest.newBuilder().setId(userToTest.getId()).build();
-    var mockedStreamObserver = GrpcUtils.<GrpcUser>getMockedStreamObserver();
+    var mockedStreamObserver = GrpcTestUtil.<GrpcUser>getMockedStreamObserver();
     var expectedGrpcUser = GrpcUserMapper.mapUserToGrpcUser(userToTest);
     Mockito.when(
             this.userRepository.findByIdAndEntityStatus(

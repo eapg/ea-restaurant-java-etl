@@ -10,4 +10,8 @@ public class Oauth2 {
     ACCESS_TOKEN,
     REFRESH_TOKEN
   }
+
+  public enum Claims {
+    JAVA_ETL,
+  }
 }

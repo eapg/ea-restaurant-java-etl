@@ -1,4 +1,4 @@
-package com.ea.restaurant.service.impl.utils.fixtures;
+package com.ea.restaurant.test.fixture;
 
 import com.ea.restaurant.constants.Roles;
 import com.ea.restaurant.constants.Status;
