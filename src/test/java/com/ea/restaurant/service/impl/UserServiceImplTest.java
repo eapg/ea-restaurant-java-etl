@@ -8,6 +8,7 @@ import com.ea.restaurant.repository.UserRepository;
 import com.ea.restaurant.service.UserService;
 import java.util.ArrayList;
 import java.util.Optional;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -18,13 +19,19 @@ class UserServiceImplTest {
 
   private UserService userService;
   private UserRepository userRepository;
+  private AutoCloseable mockedAnnotations;
 
   @BeforeEach
   void setUp() throws Exception {
 
     userRepository = Mockito.mock(UserRepository.class);
     userService = new UserServiceImpl(userRepository);
-    MockitoAnnotations.openMocks(this);
+    this.mockedAnnotations = MockitoAnnotations.openMocks(this);
+  }
+
+  @AfterEach
+  public void afterEach() throws Exception {
+    this.mockedAnnotations.close();
   }
 
   @Test

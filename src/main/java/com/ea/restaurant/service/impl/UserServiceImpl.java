@@ -9,6 +9,7 @@ import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -19,6 +20,7 @@ public class UserServiceImpl implements UserService {
     this.userRepository = userRepository;
   }
 
+  @Transactional(rollbackFor = Exception.class)
   @Override
   public User create(User user) {
     user.setEntityStatus(Status.ACTIVE);
@@ -28,11 +30,13 @@ public class UserServiceImpl implements UserService {
     return userRepository.save(user);
   }
 
+  @Transactional(readOnly = true)
   @Override
   public List<User> findAllEnabled() {
     return userRepository.findAllByEntityStatus(Status.ACTIVE);
   }
 
+  @Transactional(readOnly = true)
   @Override
   public Optional<User> findEnabledById(Long id) {
     return userRepository.findByIdAndEntityStatus(id, Status.ACTIVE);
@@ -44,6 +48,7 @@ public class UserServiceImpl implements UserService {
     this.updateById(id, user);
   }
 
+  @Transactional(rollbackFor = Exception.class)
   @Override
   public User updateById(Long id, User user) {
     User userToUpdate = this.findEnabledById(id).orElseThrow(EntityNotFoundException::new);
@@ -64,6 +69,7 @@ public class UserServiceImpl implements UserService {
     return userToUpdate;
   }
 
+  @Transactional(readOnly = true)
   @Override
   public Optional<User> findEnabledByUsername(String username) {
     return userRepository.findByUsernameAndEntityStatus(username, Status.ACTIVE);

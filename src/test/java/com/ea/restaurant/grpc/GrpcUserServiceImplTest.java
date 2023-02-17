@@ -5,6 +5,7 @@ import com.ea.restaurant.test.fixture.UserFixture;
 import com.ea.restaurant.test.util.GrpcTestUtil;
 import com.ea.restaurant.util.GrpcUserMapper;
 import java.util.Optional;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -14,12 +15,18 @@ class GrpcUserServiceImplTest {
 
   private UserService userService;
   private GrpcUserServiceImpl grpcUserService;
+  private AutoCloseable mockedAnnotations;
 
   @BeforeEach
   void setUp() {
     userService = Mockito.mock(UserService.class);
     grpcUserService = new GrpcUserServiceImpl(userService);
-    MockitoAnnotations.openMocks(this);
+    this.mockedAnnotations = MockitoAnnotations.openMocks(this);
+  }
+
+  @AfterEach
+  public void afterEach() throws Exception {
+    this.mockedAnnotations.close();
   }
 
   @Test
