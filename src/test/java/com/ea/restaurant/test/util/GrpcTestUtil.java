@@ -1,9 +1,9 @@
-package com.ea.restaurant.utils;
+package com.ea.restaurant.test.util;
 
 import io.grpc.stub.StreamObserver;
 import org.mockito.Mockito;
 
-public class GrpcUtils {
+public class GrpcTestUtil {
 
   @SuppressWarnings("unchecked")
   public static <T> StreamObserver<T> getMockedStreamObserver() {

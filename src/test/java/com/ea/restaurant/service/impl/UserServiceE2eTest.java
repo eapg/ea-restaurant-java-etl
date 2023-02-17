@@ -4,7 +4,7 @@ import com.ea.restaurant.entities.User;
 import com.ea.restaurant.exceptions.EntityNotFoundException;
 import com.ea.restaurant.repository.UserRepository;
 import com.ea.restaurant.service.UserService;
-import com.ea.restaurant.service.impl.utils.fixtures.UserFixture;
+import com.ea.restaurant.test.fixture.UserFixture;
 import java.util.Arrays;
 import java.util.Optional;
 import org.junit.jupiter.api.Assertions;

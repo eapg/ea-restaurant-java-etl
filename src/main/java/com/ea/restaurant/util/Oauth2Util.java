@@ -1,4 +1,4 @@
-package com.ea.restaurant.utils;
+package com.ea.restaurant.util;
 
 import com.ea.restaurant.constants.Oauth2;
 import com.ea.restaurant.entities.AppClient;
@@ -11,16 +11,18 @@ import com.nimbusds.jose.JWEObject;
 import com.nimbusds.jose.Payload;
 import com.nimbusds.jose.crypto.DirectEncrypter;
 import com.nimbusds.jose.jwk.source.ImmutableSecret;
-import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.BadJOSEException;
 import com.nimbusds.jose.proc.JWEDecryptionKeySelector;
-import com.nimbusds.jose.proc.JWEKeySelector;
 import com.nimbusds.jose.proc.SimpleSecurityContext;
 import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.proc.ConfigurableJWTProcessor;
+import com.nimbusds.jwt.proc.DefaultJWTClaimsVerifier;
 import com.nimbusds.jwt.proc.DefaultJWTProcessor;
 import java.text.ParseException;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.Date;
+import java.util.Set;
 
 public class Oauth2Util {
 
@@ -30,7 +32,7 @@ public class Oauth2Util {
       String oauth2Secret,
       Oauth2.TokenType tokenType)
       throws JOSEException {
-    Date now = new Date();
+    var nowInstant = Instant.now();
     var expirationTime =
         (tokenType == Oauth2.TokenType.ACCESS_TOKEN)
             ? (client.getAccessTokenExpirationTime())
@@ -38,9 +40,12 @@ public class Oauth2Util {
 
     var claims =
         new JWTClaimsSet.Builder()
+            .issueTime(Date.from(nowInstant))
+            .issuer(Oauth2.Claims.JAVA_ETL.toString())
+            .subject(client.getClientName())
             .claim("clientName", client.getClientName())
             .claim("scopes", appClientScope.getScopes())
-            .expirationTime(new Date(now.getTime() + expirationTime))
+            .expirationTime(Date.from(nowInstant.plus(expirationTime, ChronoUnit.SECONDS)))
             .build();
 
     var payload = new Payload(claims.toJSONObject());
@@ -56,15 +61,33 @@ public class Oauth2Util {
 
   public static JWTClaimsSet getTokenDecoded(String token, String secretKey)
       throws BadJOSEException, ParseException, JOSEException {
-    ConfigurableJWTProcessor<SimpleSecurityContext> jwtProcessor =
-        new DefaultJWTProcessor<SimpleSecurityContext>();
-    JWKSource<SimpleSecurityContext> jweKeySource =
-        new ImmutableSecret<SimpleSecurityContext>(secretKey.getBytes());
-    JWEKeySelector<SimpleSecurityContext> jweKeySelector =
-        new JWEDecryptionKeySelector<SimpleSecurityContext>(
+    var jwtProcessor = buildJwtProcessor(secretKey);
+
+    return jwtProcessor.process(token, null);
+  }
+
+  public static void validateToken(String token, String secretKey)
+      throws BadJOSEException, ParseException, JOSEException {
+    getTokenDecoded(token, secretKey);
+  }
+
+  public static Integer getExpirationTimeInSeconds(Instant expirationTime) {
+    var now = Instant.now();
+    return Math.toIntExact((expirationTime.getEpochSecond() - now.getEpochSecond()));
+  }
+
+  private static ConfigurableJWTProcessor<SimpleSecurityContext> buildJwtProcessor(
+      String secretKey) {
+    var jwtProcessor = new DefaultJWTProcessor<SimpleSecurityContext>();
+    var jweKeySource = new ImmutableSecret<SimpleSecurityContext>(secretKey.getBytes());
+    var jweKeySelector =
+        new JWEDecryptionKeySelector<>(
             JWEAlgorithm.DIR, EncryptionMethod.A128CBC_HS256, jweKeySource);
     jwtProcessor.setJWEKeySelector(jweKeySelector);
 
-    return jwtProcessor.process(token, null);
+    jwtProcessor.setJWTClaimsSetVerifier(
+        new DefaultJWTClaimsVerifier<>(new JWTClaimsSet.Builder().build(), Set.of("exp", "iat")));
+
+    return jwtProcessor;
   }
 }

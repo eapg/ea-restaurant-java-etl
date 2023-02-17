@@ -1,6 +1,6 @@
 package com.ea.restaurant.service.impl;
 
-import static com.ea.restaurant.service.impl.utils.fixtures.UserFixture.buildUser;
+import static com.ea.restaurant.test.fixture.UserFixture.buildUser;
 
 import com.ea.restaurant.constants.Status;
 import com.ea.restaurant.entities.User;

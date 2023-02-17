@@ -1,4 +1,4 @@
-package com.ea.restaurant.utils.fixtures;
+package com.ea.restaurant.test.fixture;
 
 import com.ea.restaurant.constants.Status;
 import com.ea.restaurant.entities.AppClientScope;
