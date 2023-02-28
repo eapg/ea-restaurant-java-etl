@@ -13,6 +13,22 @@ Download and install the following tools:
 * [checkstyle](https://maven.apache.org/plugins/maven-checkstyle-plugin/usage.html)
 * [Google java format](https://github.com/google/google-java-format)
 
+* In order to setup this project it's necessary to:
+
+  * Validate that migrations ran in python side of the project to have BD and tables available.
+    To go deeper into the migrations part refer to: [migrations](https://github.com/eapg/EA_RESTAURANT#migrations)
+  * Set BD connexion parameters in `application.properties` (URL, Username, Password).
+  * Set BD connexion parameters for testing in route test/resources `applicatin.properties` (URL, Username, Password).
+  * Set oauth2.secret.key in `application.properties` as part of Oauth2 security.
+  * Run maven command `mvn package` in order to set all dependencies in `POM` file.
+  * Run maven command `mvn compile` to build `.java` from `.proto` files since this is a project that implements Grpc.
+  * Before running the `springBootApp` to start the application it is necessary to set intellij to get the specific profile using
+  command `spring.profiles.active=local` where `local` is the main profile to run the application, to set this command go to:
+  `edit configurations` and put the command `spring.profiles.active=local` in the environment variables field. See image below.
+  
+
+  ![img.png](envConfig.png)
+
 ## Run java etl project
 
 * To compile and run the spring boot application run the maven command `mvn spring-boot:run`
