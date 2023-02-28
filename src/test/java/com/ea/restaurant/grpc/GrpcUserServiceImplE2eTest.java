@@ -14,12 +14,7 @@ import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-@SpringBootTest(
-    properties = {
-      "grpc.server.inProcessName=test",
-      "grpc.server.port=-1",
-      "grpc.client.inProcess.address=in-process:test"
-    })
+@SpringBootTest
 @ImportAutoConfiguration({
   GrpcServerAutoConfiguration.class,
   GrpcServerFactoryAutoConfiguration.class,
