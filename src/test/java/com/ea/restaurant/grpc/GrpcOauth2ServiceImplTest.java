@@ -1,6 +1,6 @@
 package com.ea.restaurant.grpc;
 
-import com.ea.restaurant.dtos.LoginResponseDto;
+import com.ea.restaurant.dtos.Oauth2TokenResponseDto;
 import com.ea.restaurant.exceptions.WrongCredentialsException;
 import com.ea.restaurant.record.Oauth2ClientCredentials;
 import com.ea.restaurant.service.Oauth2Service;
@@ -9,10 +9,12 @@ import com.ea.restaurant.test.fixture.AppClientFixture;
 import com.ea.restaurant.test.fixture.AppRefreshTokenFixture;
 import com.ea.restaurant.test.fixture.Oauth2Fixture;
 import com.ea.restaurant.test.util.GrpcTestUtil;
-import com.ea.restaurant.util.GrpcLoginClientResponseMapper;
+import com.ea.restaurant.util.GrpcOauth2TokenResponseMapper;
 import com.ea.restaurant.util.GrpcUtil;
 import com.nimbusds.jose.JOSEException;
+import com.nimbusds.jose.proc.BadJOSEException;
 import java.io.UnsupportedEncodingException;
+import java.text.ParseException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -46,9 +48,9 @@ public class GrpcOauth2ServiceImplTest {
         new Oauth2ClientCredentials(Oauth2Fixture.TEST_CLIENT_ID, Oauth2Fixture.TEST_CLIENT_SECRET);
 
     try (var mockedGrpcUtil = GrpcTestUtil.mockGrpcUtil(testMetadata, testClientCredentials)) {
-      var mockedStreamObserver = GrpcTestUtil.<LoginClientResponse>getMockedStreamObserver();
+      var mockedStreamObserver = GrpcTestUtil.<Oauth2TokenResponse>getMockedStreamObserver();
       var loginResponse =
-          LoginResponseDto.builder()
+          Oauth2TokenResponseDto.builder()
               .accessToken(AppAccessTokenFixture.TOKEN)
               .refreshToken(AppRefreshTokenFixture.TOKEN)
               .clientName(AppClientFixture.TESTING_CLIENT_NAME)
@@ -62,7 +64,7 @@ public class GrpcOauth2ServiceImplTest {
           .thenReturn(loginResponse);
       this.grpcOauth2Service.loginClient(null, mockedStreamObserver);
       var expectedGrpcLoginResponse =
-          GrpcLoginClientResponseMapper.mapLoginResponseToGrpcLoginResponse(loginResponse);
+          GrpcOauth2TokenResponseMapper.mapLoginResponseToGrpcLoginResponse(loginResponse);
 
       Mockito.verify(mockedStreamObserver, Mockito.times(1))
           .onNext(Mockito.eq(expectedGrpcLoginResponse));
@@ -86,7 +88,7 @@ public class GrpcOauth2ServiceImplTest {
 
     try (var mockedGrpcUtil = GrpcTestUtil.mockGrpcUtil(testMetadata, testClientWrongCredentials)) {
 
-      var mockedStreamObserver = GrpcTestUtil.<LoginClientResponse>getMockedStreamObserver();
+      var mockedStreamObserver = GrpcTestUtil.<Oauth2TokenResponse>getMockedStreamObserver();
       Mockito.when(
               this.oauth2Service.loginClient(
                   Mockito.eq(Oauth2Fixture.TEST_WRONG_CLIENT_ID),
@@ -96,5 +98,46 @@ public class GrpcOauth2ServiceImplTest {
 
       Mockito.verify(mockedStreamObserver, Mockito.times(1)).onError(Mockito.any());
     }
+  }
+
+  @Test
+  public void whenExpiredAccessToken_ShouldReturnNewAccessToken()
+      throws BadJOSEException, ParseException, JOSEException {
+    var refreshTokenRequest =
+        RefreshTokenRequest.newBuilder()
+            .setAccessToken(AppAccessTokenFixture.EXPIRE_TOKEN)
+            .setRefreshToken(AppRefreshTokenFixture.TOKEN)
+            .setClientId(Oauth2Fixture.TEST_CLIENT_ID)
+            .setClientSecret(Oauth2Fixture.TEST_CLIENT_SECRET)
+            .build();
+    var refreshTokenResponse =
+        Oauth2TokenResponseDto.builder()
+            .accessToken(AppAccessTokenFixture.TOKEN)
+            .refreshToken(AppRefreshTokenFixture.TOKEN)
+            .clientName(AppClientFixture.TESTING_CLIENT_NAME)
+            .scopes(Oauth2Fixture.TEST_SCOPES)
+            .expiresIn(5)
+            .build();
+    Mockito.when(
+            this.oauth2Service.refreshToken(
+                Mockito.eq(AppRefreshTokenFixture.TOKEN),
+                Mockito.eq(AppAccessTokenFixture.EXPIRE_TOKEN),
+                Mockito.eq(Oauth2Fixture.TEST_CLIENT_ID),
+                Mockito.eq(Oauth2Fixture.TEST_CLIENT_SECRET)))
+        .thenReturn(refreshTokenResponse);
+    var mockedStreamObserver = GrpcTestUtil.<Oauth2TokenResponse>getMockedStreamObserver();
+    this.grpcOauth2Service.refreshToken(refreshTokenRequest, mockedStreamObserver);
+    var expectedGrpcRefreshTokenResponse =
+        GrpcOauth2TokenResponseMapper.mapLoginResponseToGrpcLoginResponse(refreshTokenResponse);
+    Mockito.verify(this.oauth2Service, Mockito.times(1))
+        .refreshToken(
+            Mockito.eq(AppRefreshTokenFixture.TOKEN),
+            Mockito.eq(AppAccessTokenFixture.EXPIRE_TOKEN),
+            Mockito.eq(Oauth2Fixture.TEST_CLIENT_ID),
+            Mockito.eq(Oauth2Fixture.TEST_CLIENT_SECRET));
+
+    Mockito.verify(mockedStreamObserver, Mockito.times(1))
+        .onNext(Mockito.eq(expectedGrpcRefreshTokenResponse));
+    Mockito.verify(mockedStreamObserver, Mockito.times(1)).onCompleted();
   }
 }

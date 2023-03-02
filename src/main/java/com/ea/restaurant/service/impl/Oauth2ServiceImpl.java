@@ -3,7 +3,7 @@ package com.ea.restaurant.service.impl;
 import com.ea.restaurant.constants.Oauth2;
 import com.ea.restaurant.constants.Oauth2.GranType;
 import com.ea.restaurant.constants.Status;
-import com.ea.restaurant.dtos.LoginResponseDto;
+import com.ea.restaurant.dtos.Oauth2TokenResponseDto;
 import com.ea.restaurant.entities.AppAccessToken;
 import com.ea.restaurant.entities.AppClient;
 import com.ea.restaurant.entities.AppRefreshToken;
@@ -49,7 +49,8 @@ public class Oauth2ServiceImpl implements Oauth2Service {
 
   @Transactional(rollbackFor = Exception.class)
   @Override
-  public LoginResponseDto loginClient(String clientId, String clientSecret) throws JOSEException {
+  public Oauth2TokenResponseDto loginClient(String clientId, String clientSecret)
+      throws JOSEException {
     validateClientCredentials(clientId, clientSecret);
     var client =
         this.appClientRepository
@@ -69,7 +70,7 @@ public class Oauth2ServiceImpl implements Oauth2Service {
     var persistedRefreshToken = createRefreshToken(refreshToken, client);
     createAccessToken(accessToken, persistedRefreshToken);
 
-    return LoginResponseDto.builder()
+    return Oauth2TokenResponseDto.builder()
         .clientName(client.getClientName())
         .accessToken(accessToken)
         .refreshToken(refreshToken)
@@ -80,7 +81,7 @@ public class Oauth2ServiceImpl implements Oauth2Service {
 
   @Transactional(rollbackFor = Exception.class)
   @Override
-  public LoginResponseDto refreshToken(
+  public Oauth2TokenResponseDto refreshToken(
       String refreshToken, String accessToken, String clientId, String clientSecret)
       throws BadJOSEException, ParseException, JOSEException {
     validateClientCredentials(clientId, clientSecret);
@@ -89,7 +90,7 @@ public class Oauth2ServiceImpl implements Oauth2Service {
 
       var decodedToken = Oauth2Util.getTokenDecoded(accessToken, oauth2SecretKey);
 
-      return LoginResponseDto.builder()
+      return Oauth2TokenResponseDto.builder()
           .clientName((String) decodedToken.getClaim("clientName"))
           .accessToken(accessToken)
           .refreshToken(refreshToken)
@@ -121,7 +122,7 @@ public class Oauth2ServiceImpl implements Oauth2Service {
       this.appAccessTokenRepository.deleteByRefreshTokenId(appRefreshToken.getId());
       createAccessToken(accessToken, appRefreshToken);
 
-      return LoginResponseDto.builder()
+      return Oauth2TokenResponseDto.builder()
           .accessToken(newAccessToken)
           .refreshToken(refreshToken)
           .scopes(scopes.getScopes())

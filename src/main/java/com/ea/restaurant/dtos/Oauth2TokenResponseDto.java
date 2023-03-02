@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @Getter
 @Builder
-public class LoginResponseDto {
+public class Oauth2TokenResponseDto {
   private String accessToken;
   private String refreshToken;
   private Integer expiresIn;
