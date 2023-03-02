@@ -16,6 +16,15 @@ public class Oauth2Fixture {
   public static final String TEST_SCOPES = "READ,WRITE";
   public static final int TEST_EXPIRATION_TIME = 10;
 
+  public static String buildAccessToken() throws JOSEException {
+    var appClient = AppClientFixture.buildAppClient(1L);
+    appClient.setAccessTokenExpirationTime(10);
+    var appClientScope = AppClientScopeFixture.buildAppClientScope(1L);
+
+    return Oauth2Util.buildClientCredentialsToken(
+        appClient, appClientScope, Oauth2Fixture.SECRET_KEY, Oauth2.TokenType.ACCESS_TOKEN);
+  }
+
   public static String buildExpiredAccessToken() throws JOSEException {
     var appClient = AppClientFixture.buildAppClient(1L);
     appClient.setAccessTokenExpirationTime(-100000);
