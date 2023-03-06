@@ -46,4 +46,17 @@ public class OrderStatusHistoryServiceImplTest {
         .findLastOrderStatusHistoriesByOrderIds(Mockito.eq(List.of(1L)));
     Assertions.assertEquals(orderStatusHistories, orderStatusHistoriesReturned);
   }
+
+  @Test
+  public void whenInsertNewOrUpdate_ShouldBulkInsertOrderStatusHistories() {
+    var orderStatus1 = OrderStatusHistoryFixture.buildOrderStatusHistory(1L);
+    var orderStatus2 = OrderStatusHistoryFixture.buildOrderStatusHistory(2L);
+    var orderStatusHistories = List.of(orderStatus1, orderStatus2);
+
+    this.orderStatusHistoryService.insertNewOrUpdatedBatchOrderStatusHistories(
+        orderStatusHistories);
+
+    Mockito.verify(orderStatusHistoryRepository, Mockito.times(1))
+        .saveAll(Mockito.eq(orderStatusHistories));
+  }
 }

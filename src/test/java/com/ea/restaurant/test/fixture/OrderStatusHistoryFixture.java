@@ -21,35 +21,35 @@ public class OrderStatusHistoryFixture {
   public static final Instant UPDATED_DATE = Instant.EPOCH;
   public static final Status ENTITY_STATUS = Status.ACTIVE;
 
-  public static OrderStatusHistory buildOrderStatusHistory(OrderStatusHistory orderStatusHistory) {
-    var orderStatusHistoryExample = new OrderStatusHistory();
-    orderStatusHistoryExample.setId(orderStatusHistory.getId());
-    orderStatusHistoryExample.setOrderId(
-        Optional.ofNullable(orderStatusHistory.getOrderId()).orElse(ORDER_ID));
-    orderStatusHistoryExample.setFromTime(
-        Optional.ofNullable(orderStatusHistory.getFromTime()).orElse(FROM_TIME));
-    orderStatusHistoryExample.setToTime(
-        Optional.ofNullable(orderStatusHistory.getToTime()).orElse(TO_TIME));
-    orderStatusHistoryExample.setFromStatus(
-        Optional.ofNullable(orderStatusHistory.getFromStatus()).orElse(FROM_STATUS));
-    orderStatusHistoryExample.setToStatus(
-        Optional.ofNullable(orderStatusHistory.getToStatus()).orElse(TO_STATUS));
-    orderStatusHistoryExample.setMongodbOrderStatusHistoryUuid(
-        Optional.ofNullable(orderStatusHistory.getMongodbOrderStatusHistoryUuid())
+  public static OrderStatusHistory buildOrderStatusHistory(OrderStatusHistory orderStatusHistoryExample) {
+    var orderStatusHistory = new OrderStatusHistory();
+    orderStatusHistory.setId(orderStatusHistoryExample.getId());
+    orderStatusHistory.setOrderId(
+        Optional.ofNullable(orderStatusHistoryExample.getOrderId()).orElse(ORDER_ID));
+    orderStatusHistory.setFromTime(
+        Optional.ofNullable(orderStatusHistoryExample.getFromTime()).orElse(FROM_TIME));
+    orderStatusHistory.setToTime(
+        Optional.ofNullable(orderStatusHistoryExample.getToTime()).orElse(TO_TIME));
+    orderStatusHistory.setFromStatus(
+        Optional.ofNullable(orderStatusHistoryExample.getFromStatus()).orElse(FROM_STATUS));
+    orderStatusHistory.setToStatus(
+        Optional.ofNullable(orderStatusHistoryExample.getToStatus()).orElse(TO_STATUS));
+    orderStatusHistory.setMongodbOrderStatusHistoryUuid(
+        Optional.ofNullable(orderStatusHistoryExample.getMongodbOrderStatusHistoryUuid())
             .orElse(MONGODB_ORDER_STATUS_HISTORY_UUID));
-    orderStatusHistoryExample.setEtlStatus(
-        Optional.ofNullable(orderStatusHistory.getEtlStatus()).orElse(ETL_STATUS));
-    orderStatusHistoryExample.setEntityStatus(
-        Optional.ofNullable(orderStatusHistory.getEntityStatus()).orElse(ENTITY_STATUS));
-    orderStatusHistoryExample.setCreatedDate(
-        Optional.ofNullable(orderStatusHistory.getCreatedDate()).orElse(CREATED_DATE));
-    orderStatusHistoryExample.setCreatedBy(
-        Optional.ofNullable(orderStatusHistory.getCreatedBy()).orElse(CREATED_BY));
-    orderStatusHistoryExample.setUpdatedBy(
-        Optional.ofNullable(orderStatusHistory.getUpdatedBy()).orElse(UPDATED_BY));
-    orderStatusHistoryExample.setUpdatedDate(
-        Optional.ofNullable(orderStatusHistory.getUpdatedDate()).orElse(UPDATED_DATE));
-    return orderStatusHistoryExample;
+    orderStatusHistory.setEtlStatus(
+        Optional.ofNullable(orderStatusHistoryExample.getEtlStatus()).orElse(ETL_STATUS));
+    orderStatusHistory.setEntityStatus(
+        Optional.ofNullable(orderStatusHistoryExample.getEntityStatus()).orElse(ENTITY_STATUS));
+    orderStatusHistory.setCreatedDate(
+        Optional.ofNullable(orderStatusHistoryExample.getCreatedDate()).orElse(CREATED_DATE));
+    orderStatusHistory.setCreatedBy(
+        Optional.ofNullable(orderStatusHistoryExample.getCreatedBy()).orElse(CREATED_BY));
+    orderStatusHistory.setUpdatedBy(
+        Optional.ofNullable(orderStatusHistoryExample.getUpdatedBy()).orElse(UPDATED_BY));
+    orderStatusHistory.setUpdatedDate(
+        Optional.ofNullable(orderStatusHistoryExample.getUpdatedDate()).orElse(UPDATED_DATE));
+    return orderStatusHistory;
   }
 
   public static OrderStatusHistory buildOrderStatusHistory(
