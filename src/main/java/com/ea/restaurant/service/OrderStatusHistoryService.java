@@ -6,5 +6,5 @@ import java.util.List;
 public interface OrderStatusHistoryService {
   List<OrderStatusHistory> findLastOrderStatusHistoriesByOrderIds(List<Long> orderIds);
 
-  void InsertNewOrUpdatedBatchOrderStatusHistories(List<OrderStatusHistory> orderStatusHistories);
+  void insertNewOrUpdatedBatchOrderStatusHistories(List<OrderStatusHistory> orderStatusHistories);
 }

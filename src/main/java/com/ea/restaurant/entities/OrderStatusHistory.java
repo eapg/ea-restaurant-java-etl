@@ -1,6 +1,10 @@
 package com.ea.restaurant.entities;
 
+import com.ea.restaurant.constants.EtlStatus;
+import com.ea.restaurant.constants.OrderStatus;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import java.time.Instant;
@@ -21,10 +25,17 @@ public class OrderStatusHistory extends BaseEntity {
   @NotNull private Long orderId;
   private Instant fromTime;
   private Instant toTime;
-  private String fromStatus;
-  private String toStatus;
+
+  @Enumerated(EnumType.STRING)
+  private OrderStatus fromStatus;
+
+  @Enumerated(EnumType.STRING)
+  private OrderStatus toStatus;
+
   private String mongodbOrderStatusHistoryUuid;
-  private String etlStatus;
+
+  @Enumerated(EnumType.STRING)
+  private EtlStatus etlStatus;
 
   public OrderStatusHistory(Long id) {
     super(id);

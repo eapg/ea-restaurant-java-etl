@@ -24,7 +24,7 @@ public class OrderStatusHistoryServiceImpl implements OrderStatusHistoryService 
 
   @Transactional(rollbackFor = Exception.class)
   @Override
-  public void InsertNewOrUpdatedBatchOrderStatusHistories(
+  public void insertNewOrUpdatedBatchOrderStatusHistories(
       List<OrderStatusHistory> orderStatusHistories) {
     this.orderStatusHistoryRepository.saveAll(orderStatusHistories);
   }
