@@ -21,7 +21,8 @@ public class OrderStatusHistoryFixture {
   public static final Instant UPDATED_DATE = Instant.EPOCH;
   public static final Status ENTITY_STATUS = Status.ACTIVE;
 
-  public static OrderStatusHistory buildOrderStatusHistory(OrderStatusHistory orderStatusHistoryExample) {
+  public static OrderStatusHistory buildOrderStatusHistory(
+      OrderStatusHistory orderStatusHistoryExample) {
     var orderStatusHistory = new OrderStatusHistory();
     orderStatusHistory.setId(orderStatusHistoryExample.getId());
     orderStatusHistory.setOrderId(
