@@ -5,6 +5,7 @@ import com.ea.restaurant.document.MongoOrderStatusHistory;
 import com.ea.restaurant.repository.MongoOrderStatusHistoryRepository;
 import com.ea.restaurant.service.MongoOrderStatusHistoryService;
 import java.util.List;
+import java.util.Set;
 import org.bson.types.ObjectId;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +25,7 @@ public class MongoOrderStatusHistoryServiceImpl implements MongoOrderStatusHisto
   }
 
   @Override
-  public void updateBatchToProcessed(List<ObjectId> ids) {
+  public void updateBatchToProcessed(Set<ObjectId> ids) {
     var mongoOrderStatusHistories = this.mongoOrderStatusHistoryRepository.findAllByIdIn(ids);
     for (MongoOrderStatusHistory mongoOrderStatusHistory : mongoOrderStatusHistories) {
       mongoOrderStatusHistory.setEtlStatus(EtlStatus.PROCESSED);

@@ -15,7 +15,7 @@ public class MongoOrderStatusHistoryFixture {
   public static final OrderStatus FROM_STATUS = OrderStatus.NEW_ORDER;
   public static final OrderStatus TO_STATUS = OrderStatus.IN_PROCESS;
   public static final String MONGODB_ORDER_STATUS_HISTORY_UUID = "MONGOUUID";
-  public static final EtlStatus ETL_STATUS = EtlStatus.PROCESSED;
+  public static final EtlStatus ETL_STATUS = EtlStatus.UNPROCESSED;
   public static final Long CREATED_BY = 1L;
   public static final Instant CREATED_DATE = Instant.EPOCH;
   public static final Long UPDATED_BY = 1L;
@@ -23,52 +23,52 @@ public class MongoOrderStatusHistoryFixture {
   public static final Status ENTITY_STATUS = Status.ACTIVE;
 
   public static MongoOrderStatusHistory buildMongoOrderStatusHistory(
-      MongoOrderStatusHistory MongoOrderStatusHistoryExample) {
-    var MongoOrderStatusHistory = new MongoOrderStatusHistory();
-    MongoOrderStatusHistory.setId(MongoOrderStatusHistoryExample.getId());
-    MongoOrderStatusHistory.setOrderId(
-        Optional.ofNullable(MongoOrderStatusHistoryExample.getOrderId()).orElse(ORDER_ID));
-    MongoOrderStatusHistory.setFromTime(
-        Optional.ofNullable(MongoOrderStatusHistoryExample.getFromTime()).orElse(FROM_TIME));
-    MongoOrderStatusHistory.setToTime(
-        Optional.ofNullable(MongoOrderStatusHistoryExample.getToTime()).orElse(TO_TIME));
-    MongoOrderStatusHistory.setFromStatus(
-        Optional.ofNullable(MongoOrderStatusHistoryExample.getFromStatus()).orElse(FROM_STATUS));
-    MongoOrderStatusHistory.setToStatus(
-        Optional.ofNullable(MongoOrderStatusHistoryExample.getToStatus()).orElse(TO_STATUS));
-    MongoOrderStatusHistory.setEtlStatus(
-        Optional.ofNullable(MongoOrderStatusHistoryExample.getEtlStatus()).orElse(ETL_STATUS));
-    MongoOrderStatusHistory.setEntityStatus(
-        Optional.ofNullable(MongoOrderStatusHistoryExample.getEntityStatus())
+      MongoOrderStatusHistory mongoOrderStatusHistoryExample) {
+    var mongoOrderStatusHistory = new MongoOrderStatusHistory();
+    mongoOrderStatusHistory.setId(mongoOrderStatusHistoryExample.getId());
+    mongoOrderStatusHistory.setOrderId(
+        Optional.ofNullable(mongoOrderStatusHistoryExample.getOrderId()).orElse(ORDER_ID));
+    mongoOrderStatusHistory.setFromTime(
+        Optional.ofNullable(mongoOrderStatusHistoryExample.getFromTime()).orElse(FROM_TIME));
+    mongoOrderStatusHistory.setToTime(
+        Optional.ofNullable(mongoOrderStatusHistoryExample.getToTime()).orElse(TO_TIME));
+    mongoOrderStatusHistory.setFromStatus(
+        Optional.ofNullable(mongoOrderStatusHistoryExample.getFromStatus()).orElse(FROM_STATUS));
+    mongoOrderStatusHistory.setToStatus(
+        Optional.ofNullable(mongoOrderStatusHistoryExample.getToStatus()).orElse(TO_STATUS));
+    mongoOrderStatusHistory.setEtlStatus(
+        Optional.ofNullable(mongoOrderStatusHistoryExample.getEtlStatus()).orElse(ETL_STATUS));
+    mongoOrderStatusHistory.setEntityStatus(
+        Optional.ofNullable(mongoOrderStatusHistoryExample.getEntityStatus())
             .orElse(ENTITY_STATUS));
-    MongoOrderStatusHistory.setCreatedDate(
-        Optional.ofNullable(MongoOrderStatusHistoryExample.getCreatedDate()).orElse(CREATED_DATE));
-    MongoOrderStatusHistory.setCreatedBy(
-        Optional.ofNullable(MongoOrderStatusHistoryExample.getCreatedBy()).orElse(CREATED_BY));
-    MongoOrderStatusHistory.setUpdatedBy(
-        Optional.ofNullable(MongoOrderStatusHistoryExample.getUpdatedBy()).orElse(UPDATED_BY));
-    MongoOrderStatusHistory.setUpdatedDate(
-        Optional.ofNullable(MongoOrderStatusHistoryExample.getUpdatedDate()).orElse(UPDATED_DATE));
-    return MongoOrderStatusHistory;
+    mongoOrderStatusHistory.setCreatedDate(
+        Optional.ofNullable(mongoOrderStatusHistoryExample.getCreatedDate()).orElse(CREATED_DATE));
+    mongoOrderStatusHistory.setCreatedBy(
+        Optional.ofNullable(mongoOrderStatusHistoryExample.getCreatedBy()).orElse(CREATED_BY));
+    mongoOrderStatusHistory.setUpdatedBy(
+        Optional.ofNullable(mongoOrderStatusHistoryExample.getUpdatedBy()).orElse(UPDATED_BY));
+    mongoOrderStatusHistory.setUpdatedDate(
+        Optional.ofNullable(mongoOrderStatusHistoryExample.getUpdatedDate()).orElse(UPDATED_DATE));
+    return mongoOrderStatusHistory;
   }
 
   public static MongoOrderStatusHistory buildMongoOrderStatusHistory(
       ObjectId id, Long orderId, OrderStatus fromStatus, Instant fromTime) {
-    var MongoOrderStatusHistoryExample = new MongoOrderStatusHistory(id);
-    MongoOrderStatusHistoryExample.setOrderId(orderId);
-    MongoOrderStatusHistoryExample.setFromStatus(fromStatus);
-    MongoOrderStatusHistoryExample.setFromTime(fromTime);
+    var mongoOrderStatusHistoryExample = new MongoOrderStatusHistory(id);
+    mongoOrderStatusHistoryExample.setOrderId(orderId);
+    mongoOrderStatusHistoryExample.setFromStatus(fromStatus);
+    mongoOrderStatusHistoryExample.setFromTime(fromTime);
 
-    return buildMongoOrderStatusHistory(MongoOrderStatusHistoryExample);
+    return buildMongoOrderStatusHistory(mongoOrderStatusHistoryExample);
   }
 
   public static MongoOrderStatusHistory buildMongoOrderStatusHistory(ObjectId id) {
-    var MongoOrderStatusHistoryExample = new MongoOrderStatusHistory(id);
-    return buildMongoOrderStatusHistory(MongoOrderStatusHistoryExample);
+    var mongoOrderStatusHistoryExample = new MongoOrderStatusHistory(id);
+    return buildMongoOrderStatusHistory(mongoOrderStatusHistoryExample);
   }
 
   public static MongoOrderStatusHistory buildMongoOrderStatusHistory() {
-    var MongoOrderStatusHistoryExample = new MongoOrderStatusHistory();
-    return buildMongoOrderStatusHistory(MongoOrderStatusHistoryExample);
+    var mongoOrderStatusHistoryExample = new MongoOrderStatusHistory();
+    return buildMongoOrderStatusHistory(mongoOrderStatusHistoryExample);
   }
 }
