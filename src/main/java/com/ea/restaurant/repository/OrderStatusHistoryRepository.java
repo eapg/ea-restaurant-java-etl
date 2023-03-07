@@ -21,7 +21,8 @@ public interface OrderStatusHistoryRepository extends JpaRepository<OrderStatusH
                                 SELECT osh.*
                                   FROM order_status_histories AS osh
                             INNER JOIN latest_order_status_histories_cte loshcte
-                                    ON loshcte.order_id = osh.order_id AND loshcte.max_from_time = osh.from_time
+                                    ON loshcte.order_id = osh.order_id
+                                   AND loshcte.max_from_time = osh.from_time
                             """,
       nativeQuery = true)
   List<OrderStatusHistory> findLastOrderStatusHistoriesByOrderIds(

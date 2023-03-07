@@ -172,10 +172,9 @@ public class GrpcOauth2ServiceImplIntegrationTest {
   }
 
   @Test
-  public void whenRefreshExpireAccessToken_ShouldReturnNewAccessToken()
-      throws JOSEException {
+  public void whenRefreshExpireAccessToken_ShouldReturnNewAccessToken() throws JOSEException {
     try (var mockedOauth2Util = Oauth2TestUtil.mockOauth2Util(appClient, appClientScope)) {
-      var mockedStreamObserver = GrpcTestUtil.<Oauth2TokenResponse>getMockedStreamObserver();
+
       mockedOauth2Util
           .when(
               () ->
@@ -217,7 +216,7 @@ public class GrpcOauth2ServiceImplIntegrationTest {
               .build();
       var grpcRefreshTokenResponseExpected =
           GrpcOauth2TokenResponseMapper.mapLoginResponseToGrpcLoginResponse(refreshTokenResponse);
-
+      var mockedStreamObserver = GrpcTestUtil.<Oauth2TokenResponse>getMockedStreamObserver();
       this.grpcOauth2Service.refreshToken(refreshTokenRequest, mockedStreamObserver);
 
       Mockito.verify(mockedStreamObserver, Mockito.times(1))
