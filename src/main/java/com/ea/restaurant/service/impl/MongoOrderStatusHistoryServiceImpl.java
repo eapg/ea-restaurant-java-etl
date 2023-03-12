@@ -1,10 +1,11 @@
 package com.ea.restaurant.service.impl;
 
 import com.ea.restaurant.constants.EtlStatus;
-import com.ea.restaurant.entities.OrderStatusHistory;
+import com.ea.restaurant.document.MongoOrderStatusHistory;
 import com.ea.restaurant.repository.MongoOrderStatusHistoryRepository;
 import com.ea.restaurant.service.MongoOrderStatusHistoryService;
 import java.util.List;
+import org.bson.types.ObjectId;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -18,7 +19,16 @@ public class MongoOrderStatusHistoryServiceImpl implements MongoOrderStatusHisto
   }
 
   @Override
-  public List<OrderStatusHistory> findUnProcessedOrderStatusHistories() {
+  public List<MongoOrderStatusHistory> findUnProcessedOrderStatusHistories() {
     return this.mongoOrderStatusHistoryRepository.findAllByEtlStatus(EtlStatus.UNPROCESSED);
+  }
+
+  @Override
+  public void updateBatchToProcessed(List<ObjectId> ids) {
+    var mongoOrderStatusHistories = this.mongoOrderStatusHistoryRepository.findAllByIdIn(ids);
+    for (MongoOrderStatusHistory mongoOrderStatusHistory : mongoOrderStatusHistories) {
+      mongoOrderStatusHistory.setEtlStatus(EtlStatus.PROCESSED);
+    }
+    this.mongoOrderStatusHistoryRepository.saveAll(mongoOrderStatusHistories);
   }
 }
