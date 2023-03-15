@@ -5,6 +5,7 @@ import com.ea.restaurant.repository.MongoOrderStatusHistoryRepository;
 import com.ea.restaurant.service.MongoOrderStatusHistoryService;
 import com.ea.restaurant.test.fixture.MongoOrderStatusHistoryFixture;
 import java.util.List;
+import java.util.Set;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -59,7 +60,7 @@ public class MongoOrderStatusHistoryServiceImplTest {
   @Test
   public void whenReceiveListOfUuid_shouldUpdateThoseOrderStatusToProcessed() {
     var mongoIds =
-        List.of(new ObjectId("63656f20f2a8a6a247ae31cb"), new ObjectId("63656f20f2a8a6a247ae31cd"));
+        Set.of(new ObjectId("63656f20f2a8a6a247ae31cb"), new ObjectId("63656f20f2a8a6a247ae31cd"));
     var mongoOrderStatusHistory1 = MongoOrderStatusHistoryFixture.buildMongoOrderStatusHistory();
     var mongoOrderStatusHistory2 = MongoOrderStatusHistoryFixture.buildMongoOrderStatusHistory();
     var mongoOrderStatusHistoriesExpected =
