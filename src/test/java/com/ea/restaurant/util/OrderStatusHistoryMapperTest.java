@@ -8,8 +8,7 @@ import org.junit.jupiter.api.Test;
 class OrderStatusHistoryMapperTest {
 
   @Test
-  void
-      whenMapMongoOrderStatusToPostgresqlOrderStatus_shouldMapMongoOrderStatusToOrderStatus() {
+  void whenMapMongoOrderStatusToPostgresqlOrderStatus_shouldMapMongoOrderStatusToOrderStatus() {
     var mongoOrderStatusHistory =
         MongoOrderStatusHistoryFixture.buildMongoOrderStatusHistory(
             new ObjectId("63656f20f2a8a6a247ae31cc"));
