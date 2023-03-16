@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Set;
 import org.bson.types.ObjectId;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class MongoOrderStatusHistoryServiceImpl implements MongoOrderStatusHistoryService {
@@ -19,11 +20,13 @@ public class MongoOrderStatusHistoryServiceImpl implements MongoOrderStatusHisto
     this.mongoOrderStatusHistoryRepository = mongoOrderStatusHistoryRepository;
   }
 
+  @Transactional(readOnly = true)
   @Override
   public List<MongoOrderStatusHistory> findUnProcessedOrderStatusHistories() {
     return this.mongoOrderStatusHistoryRepository.findAllByEtlStatus(EtlStatus.UNPROCESSED);
   }
 
+  @Transactional(rollbackFor = Exception.class)
   @Override
   public void updateBatchToProcessed(Set<ObjectId> ids) {
     var mongoOrderStatusHistories = this.mongoOrderStatusHistoryRepository.findAllByIdIn(ids);
@@ -31,5 +34,12 @@ public class MongoOrderStatusHistoryServiceImpl implements MongoOrderStatusHisto
       mongoOrderStatusHistory.setEtlStatus(EtlStatus.PROCESSED);
     }
     this.mongoOrderStatusHistoryRepository.saveAll(mongoOrderStatusHistories);
+  }
+
+  @Transactional(rollbackFor = Exception.class)
+  @Override
+  public List<MongoOrderStatusHistory> insertMongoOrderStatusHistories(
+      List<MongoOrderStatusHistory> mongoOrderStatusHistories) {
+    return this.mongoOrderStatusHistoryRepository.saveAll(mongoOrderStatusHistories);
   }
 }

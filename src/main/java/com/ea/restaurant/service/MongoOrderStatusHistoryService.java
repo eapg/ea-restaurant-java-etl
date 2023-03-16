@@ -9,4 +9,7 @@ public interface MongoOrderStatusHistoryService {
   List<MongoOrderStatusHistory> findUnProcessedOrderStatusHistories();
 
   void updateBatchToProcessed(Set<ObjectId> ids);
+
+  List<MongoOrderStatusHistory> insertMongoOrderStatusHistories(
+      List<MongoOrderStatusHistory> mongoOrderStatusHistories);
 }
