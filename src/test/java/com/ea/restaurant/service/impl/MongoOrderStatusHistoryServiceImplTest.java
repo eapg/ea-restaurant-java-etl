@@ -74,4 +74,21 @@ public class MongoOrderStatusHistoryServiceImplTest {
     Mockito.verify(this.mongoOrderStatusHistoryRepository, Mockito.times(1))
         .saveAll(Mockito.eq(mongoOrderStatusHistoriesExpected));
   }
+
+  @Test
+  public void whenInsertMongoOrderStatusHistories_ShouldInsertInMongoDbHistories() {
+    var orderStatusHistory1 =
+        MongoOrderStatusHistoryFixture.buildMongoOrderStatusHistory(
+            new ObjectId("63656f20f2a8a6a247ae31cb"));
+    orderStatusHistory1.setEtlStatus(EtlStatus.UNPROCESSED);
+    var orderStatusHistory2 =
+        MongoOrderStatusHistoryFixture.buildMongoOrderStatusHistory(
+            new ObjectId("63656f20f2a8a6a247ae31ca"));
+    orderStatusHistory2.setEtlStatus(EtlStatus.UNPROCESSED);
+    var orderStatusHistories = List.of(orderStatusHistory1, orderStatusHistory2);
+
+    this.mongoOrderStatusHistoryService.insertMongoOrderStatusHistories(orderStatusHistories);
+    Mockito.verify(this.mongoOrderStatusHistoryRepository, Mockito.times(1))
+        .saveAll(Mockito.eq(orderStatusHistories));
+  }
 }
