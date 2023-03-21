@@ -5,6 +5,7 @@ import com.ea.restaurant.entities.AppClient;
 import com.ea.restaurant.entities.AppClientScope;
 import com.ea.restaurant.test.fixture.AppClientFixture;
 import com.ea.restaurant.test.fixture.AppClientScopeFixture;
+import com.ea.restaurant.test.fixture.Oauth2Fixture;
 import com.nimbusds.jose.JOSEException;
 import com.nimbusds.jose.proc.BadJOSEException;
 import com.nimbusds.jwt.proc.BadJWTException;
@@ -65,5 +66,57 @@ public class Oauth2UtilTest {
     Assertions.assertThrows(
         BadJWTException.class, () -> Oauth2Util.validateToken(accessToken, secretKey));
     Assertions.assertNotNull(accessToken);
+  }
+
+  @Test
+  public void whenEndpointIsProtected_shouldReturnTrue() {
+    var endpointName = "insertMongoOrderStatusHistoriesFromPythonEtl";
+    var isEndpointProtected = Oauth2Util.isEndpointProtected(endpointName);
+
+    Assertions.assertTrue(isEndpointProtected);
+  }
+
+  @Test
+  public void whenGetBearerToken_shouldReturnToken() {
+    var expectedBasicToken = "VEVTVDAxOlRFU1QtQ0xJRU5ULVNFQ1JFVA";
+    var metadata = Oauth2Fixture.buildMetaDataWithBearerToken(expectedBasicToken);
+    var token = Oauth2Util.getBearerToken(metadata);
+    Assertions.assertEquals(expectedBasicToken, token);
+  }
+
+  @Test
+  public void whenValidateScopes_shouldNotThrowException()
+      throws JOSEException, BadJOSEException, ParseException {
+    var endpointName = "insertMongoOrderStatusHistoriesFromPythonEtl";
+    var appClient = AppClientFixture.buildAppClient(1L);
+    var appClientScopes = AppClientScopeFixture.buildAppClientScope(1L);
+    var token =
+        Oauth2Util.buildClientCredentialsToken(
+            appClient, appClientScopes, secretKey, Oauth2.TokenType.ACCESS_TOKEN);
+    Assertions.assertDoesNotThrow(
+        () -> {
+          Oauth2Util.validateScopes(token, secretKey, endpointName);
+        });
+  }
+
+  @Test
+  public void whenValidateEndpointProtection_shouldValidateEndpointProtection()
+      throws BadJOSEException, ParseException, JOSEException {
+    var endpointName = "insertMongoOrderStatusHistoriesFromPythonEtl";
+    var appClient = AppClientFixture.buildAppClient(1L);
+    var appClientScopes = AppClientScopeFixture.buildAppClientScope(1L);
+    var token =
+        Oauth2Util.buildClientCredentialsToken(
+            appClient, appClientScopes, secretKey, Oauth2.TokenType.ACCESS_TOKEN);
+    var metadata = Oauth2Fixture.buildMetaDataWithBearerToken(token);
+
+    Oauth2Util.validateEndpointProtection(metadata, endpointName, secretKey);
+
+    Assertions.assertDoesNotThrow(
+        () -> Oauth2Util.validateEndpointProtection(metadata, endpointName, secretKey));
+
+    Assertions.assertDoesNotThrow(() -> Oauth2Util.validateToken(token, secretKey));
+
+    Assertions.assertDoesNotThrow(() -> Oauth2Util.validateScopes(token, secretKey, endpointName));
   }
 }
