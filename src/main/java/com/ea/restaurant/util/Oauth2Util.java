@@ -1,8 +1,11 @@
 package com.ea.restaurant.util;
 
 import com.ea.restaurant.constants.Oauth2;
+import com.ea.restaurant.constants.RequestMetadataConstants;
+import com.ea.restaurant.dtos.SecuredGrpcEndpoint;
 import com.ea.restaurant.entities.AppClient;
 import com.ea.restaurant.entities.AppClientScope;
+import com.ea.restaurant.exceptions.UnauthorizedException;
 import com.nimbusds.jose.EncryptionMethod;
 import com.nimbusds.jose.JOSEException;
 import com.nimbusds.jose.JWEAlgorithm;
@@ -18,13 +21,26 @@ import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.proc.ConfigurableJWTProcessor;
 import com.nimbusds.jwt.proc.DefaultJWTClaimsVerifier;
 import com.nimbusds.jwt.proc.DefaultJWTProcessor;
+import io.grpc.Metadata;
 import java.text.ParseException;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Stream;
 
 public class Oauth2Util {
+
+  private static final Map<String, SecuredGrpcEndpoint> ENDPOINT_SCOPES_MAP =
+      Map.of(
+          "insertMongoOrderStatusHistoriesFromPythonEtl",
+          SecuredGrpcEndpoint.builder()
+              .grpcEndpointName("insertMongoOrderStatusHistoriesFromPythonEtl")
+              .scopes(List.of("WRITE", "READ"))
+              .build());
 
   public static String buildClientCredentialsToken(
       AppClient client,
@@ -89,5 +105,51 @@ public class Oauth2Util {
         new DefaultJWTClaimsVerifier<>(new JWTClaimsSet.Builder().build(), Set.of("exp", "iat")));
 
     return jwtProcessor;
+  }
+
+  public static boolean isEndpointProtected(String grpcEndpointName) {
+    return ENDPOINT_SCOPES_MAP.containsKey(grpcEndpointName);
+  }
+
+  public static void validateEndpointProtection(
+      Metadata metadata, String endpointName, String secretKey)
+      throws BadJOSEException, ParseException, JOSEException {
+    if (isEndpointProtected(endpointName)) {
+      try {
+        var token = Oauth2Util.getBearerToken(metadata);
+
+        validateToken(token, secretKey);
+        validateScopes(token, secretKey, endpointName);
+
+      } catch (BadJOSEException | ParseException | JOSEException e) {
+        throw new RuntimeException(e);
+      }
+    }
+  }
+
+  public static void validateScopes(String token, String secretKey, String endpointName)
+      throws BadJOSEException, ParseException, JOSEException {
+
+    var tokenDecoded = getTokenDecoded(token, secretKey);
+    var tokenScopes = (String) tokenDecoded.getClaim("scopes");
+    var endpointScopes = ENDPOINT_SCOPES_MAP.get(endpointName).getScopes();
+
+    Stream.of(tokenScopes.split(","))
+        .filter(endpointScopes::contains)
+        .findFirst()
+        .orElseThrow(UnauthorizedException::new);
+  }
+
+  public static String getBearerToken(Metadata metadata) {
+    var authorization =
+        metadata.get(
+            Metadata.Key.of(
+                RequestMetadataConstants.KEY_NAME_FOR_AUTHORIZATION_METADATA,
+                Metadata.ASCII_STRING_MARSHALLER));
+
+    return Optional.ofNullable(authorization)
+        .map(auth -> authorization.substring("Bearer".length()))
+        .map(String::trim)
+        .orElseThrow(UnauthorizedException::new);
   }
 }

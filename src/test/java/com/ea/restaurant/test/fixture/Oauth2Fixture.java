@@ -53,4 +53,14 @@ public class Oauth2Fixture {
         "Basic" + basicToken);
     return metadata;
   }
+
+  public static Metadata buildMetaDataWithBearerToken(String token) {
+    var metadata = new Metadata();
+    metadata.put(
+        Metadata.Key.of(
+            RequestMetadataConstants.KEY_NAME_FOR_AUTHORIZATION_METADATA,
+            Metadata.ASCII_STRING_MARSHALLER),
+        "Bearer" + token);
+    return metadata;
+  }
 }
