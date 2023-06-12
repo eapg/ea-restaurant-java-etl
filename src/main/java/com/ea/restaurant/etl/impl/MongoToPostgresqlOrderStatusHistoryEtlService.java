@@ -45,7 +45,7 @@ public class MongoToPostgresqlOrderStatusHistoryEtlService
     var mongoUuids = new HashSet<ObjectId>();
     var orderIds = new ArrayList<Long>();
     for (OrderStatusHistory orderStatusHistory : transformedData) {
-      mongoUuids.add(new ObjectId(orderStatusHistory.getMongodbOrderStatusHistoryUuid()));
+      mongoUuids.add(new ObjectId(orderStatusHistory.getMongoOrderStatusHistoryUuid()));
 
       if (!orderIds.contains(orderStatusHistory.getOrderId())) {
         orderIds.add(orderStatusHistory.getOrderId());

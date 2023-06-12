@@ -35,8 +35,8 @@ public class OrderStatusHistoryFixture {
         Optional.ofNullable(orderStatusHistoryExample.getFromStatus()).orElse(FROM_STATUS));
     orderStatusHistory.setToStatus(
         Optional.ofNullable(orderStatusHistoryExample.getToStatus()).orElse(TO_STATUS));
-    orderStatusHistory.setMongodbOrderStatusHistoryUuid(
-        Optional.ofNullable(orderStatusHistoryExample.getMongodbOrderStatusHistoryUuid())
+    orderStatusHistory.setMongoOrderStatusHistoryUuid(
+        Optional.ofNullable(orderStatusHistoryExample.getMongoOrderStatusHistoryUuid())
             .orElse(MONGODB_ORDER_STATUS_HISTORY_UUID));
     orderStatusHistory.setEtlStatus(
         Optional.ofNullable(orderStatusHistoryExample.getEtlStatus()).orElse(ETL_STATUS));
