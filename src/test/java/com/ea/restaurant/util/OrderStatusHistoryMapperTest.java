@@ -1,9 +1,16 @@
 package com.ea.restaurant.util;
 
+import com.ea.restaurant.constants.EtlStatus;
+import com.ea.restaurant.constants.Status;
+import com.ea.restaurant.document.MongoOrderStatusHistory;
 import com.ea.restaurant.test.fixture.MongoOrderStatusHistoryFixture;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+
+import java.time.Instant;
+
+import static com.ea.restaurant.util.OrderStatusHistoryMapper.mapMongoOrderStatusToPostgresqlOrderStatus;
 
 class OrderStatusHistoryMapperTest {
 
@@ -19,7 +26,7 @@ class OrderStatusHistoryMapperTest {
 
     Assertions.assertEquals(
         mongoOrderStatusHistory.getId().toString(),
-        orderStatusHistory.getMongodbOrderStatusHistoryUuid());
+        orderStatusHistory.getMongoOrderStatusHistoryUuid());
 
     Assertions.assertEquals(mongoOrderStatusHistory.getOrderId(), orderStatusHistory.getOrderId());
   }

@@ -77,24 +77,24 @@ class MongoToPostgresqlOrderStatusHistoryEtlServiceTest {
   @Test
   void whenLoad_shouldInsertNewOrUpdateBatchOrderStatusHistories() {
     var orderStatusHistory1 = OrderStatusHistoryFixture.buildOrderStatusHistory();
-    orderStatusHistory1.setMongodbOrderStatusHistoryUuid("63656f20f2a8a6a247ae31cb");
+    orderStatusHistory1.setMongoOrderStatusHistoryUuid("63656f20f2a8a6a247ae31cb");
     orderStatusHistory1.setFromStatus(OrderStatus.CANCELLED);
     var orderStatusHistory2 = OrderStatusHistoryFixture.buildOrderStatusHistory();
     orderStatusHistory2.setOrderId(2L);
-    orderStatusHistory2.setMongodbOrderStatusHistoryUuid("63656f20f2a8a6a247ae31cc");
+    orderStatusHistory2.setMongoOrderStatusHistoryUuid("63656f20f2a8a6a247ae31cc");
     orderStatusHistory2.setFromStatus(OrderStatus.CANCELLED);
 
     var orderStatusHistory3 = OrderStatusHistoryFixture.buildOrderStatusHistory();
-    orderStatusHistory3.setMongodbOrderStatusHistoryUuid("63656f20f2a8a6a247ae31cb");
+    orderStatusHistory3.setMongoOrderStatusHistoryUuid("63656f20f2a8a6a247ae31cb");
     var orderStatusHistory4 = OrderStatusHistoryFixture.buildOrderStatusHistory();
     orderStatusHistory4.setOrderId(2L);
-    orderStatusHistory4.setMongodbOrderStatusHistoryUuid("63656f20f2a8a6a247ae31cc");
+    orderStatusHistory4.setMongoOrderStatusHistoryUuid("63656f20f2a8a6a247ae31cc");
 
     var orderStatusHistory5 = OrderStatusHistoryFixture.buildOrderStatusHistory();
-    orderStatusHistory5.setMongodbOrderStatusHistoryUuid("63656f20f2a8a6a247ae31cb");
+    orderStatusHistory5.setMongoOrderStatusHistoryUuid("63656f20f2a8a6a247ae31cb");
     orderStatusHistory5.setToStatus(OrderStatus.CANCELLED);
     var orderStatusHistory6 = OrderStatusHistoryFixture.buildOrderStatusHistory();
-    orderStatusHistory6.setMongodbOrderStatusHistoryUuid("63656f20f2a8a6a247ae31cc");
+    orderStatusHistory6.setMongoOrderStatusHistoryUuid("63656f20f2a8a6a247ae31cc");
     orderStatusHistory6.setOrderId(2L);
     orderStatusHistory6.setToStatus(OrderStatus.CANCELLED);
 

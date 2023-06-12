@@ -30,7 +30,7 @@ public class OrderStatusHistory extends BaseEntity {
   @Enumerated(EnumType.STRING)
   private OrderStatus toStatus;
 
-  private String mongodbOrderStatusHistoryUuid;
+  private String mongoOrderStatusHistoryUuid;
 
   @Enumerated(EnumType.STRING)
   private EtlStatus etlStatus;

@@ -7,7 +7,7 @@ public class OrderStatusHistoryMapper {
   public static OrderStatusHistory mapMongoOrderStatusToPostgresqlOrderStatus(
       MongoOrderStatusHistory mongoOrderStatusHistory) {
     var orderStatusHistory = new OrderStatusHistory();
-    orderStatusHistory.setMongodbOrderStatusHistoryUuid(mongoOrderStatusHistory.getId().toString());
+    orderStatusHistory.setMongoOrderStatusHistoryUuid(mongoOrderStatusHistory.getId().toString());
     orderStatusHistory.setOrderId(mongoOrderStatusHistory.getOrderId());
     orderStatusHistory.setEtlStatus(mongoOrderStatusHistory.getEtlStatus());
     orderStatusHistory.setFromStatus(mongoOrderStatusHistory.getFromStatus());
