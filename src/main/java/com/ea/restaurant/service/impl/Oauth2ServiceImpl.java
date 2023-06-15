@@ -86,7 +86,6 @@ public class Oauth2ServiceImpl implements Oauth2Service {
       throws BadJOSEException, ParseException, JOSEException {
     validateClientCredentials(clientId, clientSecret);
     try {
-      Oauth2Util.validateToken(accessToken, oauth2SecretKey);
 
       var decodedToken = Oauth2Util.getTokenDecoded(accessToken, oauth2SecretKey);
 
@@ -120,7 +119,7 @@ public class Oauth2ServiceImpl implements Oauth2Service {
               client, scopes, oauth2SecretKey, Oauth2.TokenType.ACCESS_TOKEN);
 
       this.appAccessTokenRepository.deleteByRefreshTokenId(appRefreshToken.getId());
-      createAccessToken(accessToken, appRefreshToken);
+      createAccessToken(newAccessToken, appRefreshToken);
 
       return Oauth2TokenResponseDto.builder()
           .accessToken(newAccessToken)

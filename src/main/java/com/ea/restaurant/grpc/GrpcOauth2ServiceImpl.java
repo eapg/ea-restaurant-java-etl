@@ -50,7 +50,7 @@ public class GrpcOauth2ServiceImpl extends Oauth2ServiceGrpc.Oauth2ServiceImplBa
           GrpcOauth2TokenResponseMapper.mapLoginResponseToGrpcLoginResponse(refreshTokenResponse));
     } catch (Exception e) {
       responseObserver.onError(
-          Status.INTERNAL.withDescription(e.getMessage()).withCause(e).asRuntimeException());
+          Status.PERMISSION_DENIED.withDescription(e.getMessage()).withCause(e).asRuntimeException());
     }
     responseObserver.onCompleted();
   }
