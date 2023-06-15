@@ -120,7 +120,7 @@ public class Oauth2ServiceImpl implements Oauth2Service {
               client, scopes, oauth2SecretKey, Oauth2.TokenType.ACCESS_TOKEN);
 
       this.appAccessTokenRepository.deleteByRefreshTokenId(appRefreshToken.getId());
-      createAccessToken(accessToken, appRefreshToken);
+      createAccessToken(newAccessToken, appRefreshToken);
 
       return Oauth2TokenResponseDto.builder()
           .accessToken(newAccessToken)
