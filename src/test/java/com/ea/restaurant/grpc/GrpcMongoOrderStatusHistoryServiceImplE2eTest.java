@@ -6,6 +6,8 @@ import com.ea.restaurant.constants.Status;
 import com.ea.restaurant.document.MongoOrderStatusHistory;
 import com.ea.restaurant.repository.MongoOrderStatusHistoryRepository;
 import com.ea.restaurant.service.MongoOrderStatusHistoryService;
+import com.google.protobuf.Int64Value;
+import com.google.protobuf.StringValue;
 import java.util.List;
 import net.devh.boot.grpc.client.autoconfigure.GrpcClientAutoConfiguration;
 import net.devh.boot.grpc.client.inject.GrpcClient;
@@ -46,9 +48,9 @@ public class GrpcMongoOrderStatusHistoryServiceImplE2eTest {
         com.ea.restaurant.grpc.MongoOrderStatusHistory.newBuilder()
             .setOrderId(1)
             .setFromStatus(OrderStatus.NEW_ORDER.toString())
-            .setToStatus(OrderStatus.IN_PROCESS.toString())
+            .setToStatus(StringValue.of(OrderStatus.IN_PROCESS.toString()))
             .setFromTime(100)
-            .setToTime(100)
+            .setToTime(Int64Value.of(100))
             .setEtlStatus(EtlStatus.UNPROCESSED.toString())
             .setEntityStatus(Status.ACTIVE.toString())
             .setCreatedBy(1L)

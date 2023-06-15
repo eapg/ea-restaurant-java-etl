@@ -1,7 +1,7 @@
 syntax = "proto3";
 option java_multiple_files = true;
 option java_package = "com.ea.restaurant.grpc";
-
+import "google/protobuf/wrappers.proto";
 
 message InsertMongoOrderStatusHistoriesResponse{
   repeated string uuids = 1;
@@ -11,9 +11,9 @@ message MongoOrderStatusHistory{
   string id = 1;
   int64 orderId = 2;
   int64 fromTime = 3;
-  int64 toTime = 4;
+  google.protobuf.Int64Value toTime = 4;
   string fromStatus = 5;
-  string toStatus = 6;
+  google.protobuf.StringValue toStatus = 6;
   string etlStatus = 7;
   string entityStatus = 8;
   int64 createdBy = 9;
