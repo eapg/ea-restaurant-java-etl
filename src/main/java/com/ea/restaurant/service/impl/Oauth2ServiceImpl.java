@@ -86,7 +86,6 @@ public class Oauth2ServiceImpl implements Oauth2Service {
       throws BadJOSEException, ParseException, JOSEException {
     validateClientCredentials(clientId, clientSecret);
     try {
-      Oauth2Util.validateToken(accessToken, oauth2SecretKey);
 
       var decodedToken = Oauth2Util.getTokenDecoded(accessToken, oauth2SecretKey);
 
