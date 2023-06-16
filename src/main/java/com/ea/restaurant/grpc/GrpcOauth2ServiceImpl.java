@@ -3,9 +3,13 @@ package com.ea.restaurant.grpc;
 import com.ea.restaurant.service.Oauth2Service;
 import com.ea.restaurant.util.GrpcOauth2TokenResponseMapper;
 import com.ea.restaurant.util.GrpcUtil;
-import io.grpc.Status;
+import com.nimbusds.jose.JOSEException;
+import com.nimbusds.jose.proc.BadJOSEException;
 import io.grpc.stub.StreamObserver;
 import net.devh.boot.grpc.server.service.GrpcService;
+
+import java.io.UnsupportedEncodingException;
+import java.text.ParseException;
 
 @GrpcService
 public class GrpcOauth2ServiceImpl extends Oauth2ServiceGrpc.Oauth2ServiceImplBase {
@@ -17,9 +21,8 @@ public class GrpcOauth2ServiceImpl extends Oauth2ServiceGrpc.Oauth2ServiceImplBa
 
   @Override
   public void loginClient(
-      NotParametersRequest request, StreamObserver<Oauth2TokenResponse> responseObserver) {
+      NotParametersRequest request, StreamObserver<Oauth2TokenResponse> responseObserver) throws UnsupportedEncodingException, JOSEException {
 
-    try {
       var authMetadata = GrpcUtil.getAuthMetadataFromInterceptor();
 
       var credentials = GrpcUtil.getCredentialsFromBasicAuthToken(authMetadata);
@@ -28,18 +31,14 @@ public class GrpcOauth2ServiceImpl extends Oauth2ServiceGrpc.Oauth2ServiceImplBa
           this.oauth2Service.loginClient(credentials.clientId(), credentials.clientSecret());
       responseObserver.onNext(
           GrpcOauth2TokenResponseMapper.mapLoginResponseToGrpcLoginResponse(loginClient));
-    } catch (Exception e) {
 
-      responseObserver.onError(
-          Status.INTERNAL.withDescription(e.getMessage()).withCause(e).asRuntimeException());
-    }
     responseObserver.onCompleted();
   }
 
   @Override
   public void refreshToken(
-      RefreshTokenRequest request, StreamObserver<Oauth2TokenResponse> responseObserver) {
-    try {
+      RefreshTokenRequest request, StreamObserver<Oauth2TokenResponse> responseObserver) throws BadJOSEException, ParseException, JOSEException {
+
       var refreshTokenResponse =
           this.oauth2Service.refreshToken(
               request.getRefreshToken(),
@@ -48,10 +47,7 @@ public class GrpcOauth2ServiceImpl extends Oauth2ServiceGrpc.Oauth2ServiceImplBa
               request.getClientSecret());
       responseObserver.onNext(
           GrpcOauth2TokenResponseMapper.mapLoginResponseToGrpcLoginResponse(refreshTokenResponse));
-    } catch (Exception e) {
-      responseObserver.onError(
-          Status.PERMISSION_DENIED.withDescription(e.getMessage()).withCause(e).asRuntimeException());
-    }
+
     responseObserver.onCompleted();
   }
 }
