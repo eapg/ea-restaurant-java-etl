@@ -4,6 +4,7 @@ import static com.ea.restaurant.test.fixture.GrpcMongoOrderStatusHistoryFixture.
 import static com.ea.restaurant.test.fixture.GrpcMongoOrderStatusHistoryFixture.buildMongoOrderStatusHistoryWithOutToStatusAndToTime;
 import static com.ea.restaurant.util.GrpcMongoOrderStatusHistoryMapper.mapGrpcMongoOrderStatusToMongoOrderStatusHistory;
 
+import org.bson.types.ObjectId;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -31,6 +32,9 @@ public class GrpcMongoOrderStatusHistoryMapperTest {
     Assertions.assertEquals(
         grpcMongoOrderStatusHistory.getCreatedBy(),
         mappedGrpcMongoOrderStatusToMongoOrderStatusHistory.getCreatedBy());
+    Assertions.assertEquals(
+        new ObjectId(grpcMongoOrderStatusHistory.getId()),
+        mappedGrpcMongoOrderStatusToMongoOrderStatusHistory.getId());
   }
 
   @Test

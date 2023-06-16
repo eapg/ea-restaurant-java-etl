@@ -7,12 +7,14 @@ import com.ea.restaurant.document.MongoOrderStatusHistory;
 import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
+import org.bson.types.ObjectId;
 
 public class GrpcMongoOrderStatusHistoryMapper {
 
   public static MongoOrderStatusHistory mapGrpcMongoOrderStatusToMongoOrderStatusHistory(
       com.ea.restaurant.grpc.MongoOrderStatusHistory mongoOrderStatusHistory) {
     return MongoOrderStatusHistory.builder()
+        .id(new ObjectId(mongoOrderStatusHistory.getId()))
         .orderId(mongoOrderStatusHistory.getOrderId())
         .fromStatus(OrderStatus.valueOf(mongoOrderStatusHistory.getFromStatus()))
         .toStatus(
