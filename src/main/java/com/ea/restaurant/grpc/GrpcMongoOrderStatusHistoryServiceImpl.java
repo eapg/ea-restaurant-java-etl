@@ -4,7 +4,6 @@ import com.ea.restaurant.grpc.MongoOrderStatusHistoryServiceGrpc.MongoOrderStatu
 import com.ea.restaurant.service.MongoOrderStatusHistoryService;
 import com.ea.restaurant.util.GrpcMongoOrderStatusHistoryMapper;
 import com.ea.restaurant.util.GrpcMongoOrderStatusHistoryUtil;
-import io.grpc.Status;
 import io.grpc.stub.StreamObserver;
 import net.devh.boot.grpc.server.service.GrpcService;
 
@@ -23,7 +22,6 @@ public class GrpcMongoOrderStatusHistoryServiceImpl extends MongoOrderStatusHist
       MongoOrderStatusHistoriesFromPythonRequest request,
       StreamObserver<InsertMongoOrderStatusHistoriesResponse> responseObserver) {
 
-    try {
       var mappedMongoOrderStatusHistories =
           GrpcMongoOrderStatusHistoryMapper.mapGrpcMongoOrderStatusToMongoOrderStatusHistoryList(
               request.getMongoOrderStatusHistoryList());
@@ -38,10 +36,7 @@ public class GrpcMongoOrderStatusHistoryServiceImpl extends MongoOrderStatusHist
           InsertMongoOrderStatusHistoriesResponse.newBuilder()
               .addAllUuids(mongoOrderStatusHistoriesUuids)
               .build());
-    } catch (Exception e) {
-      responseObserver.onError(
-          Status.INTERNAL.withDescription(e.getMessage()).withCause(e).asRuntimeException());
-    }
+
     responseObserver.onCompleted();
   }
 }
