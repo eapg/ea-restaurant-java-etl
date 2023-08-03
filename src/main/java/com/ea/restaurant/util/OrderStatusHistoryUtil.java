@@ -2,7 +2,9 @@ package com.ea.restaurant.util;
 
 import com.ea.restaurant.constants.OrderStatus;
 import com.ea.restaurant.entities.OrderStatusHistory;
+import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class OrderStatusHistoryUtil {
@@ -28,6 +30,7 @@ public class OrderStatusHistoryUtil {
           orderStatusHistoryToBeUpdatedUnWrapped.setToStatus(orderStatusHistory.getFromStatus());
           orderStatusHistoryToBeUpdatedUnWrapped.setToTime(orderStatusHistory.getFromTime());
           orderStatusHistoryToBeUpdatedUnWrapped.setUpdatedBy(updatedBy);
+          orderStatusHistoryToBeUpdatedUnWrapped.setUpdatedDate(Date.from(Instant.now()));
           updatedOrderStatusHistories.add(orderStatusHistoryToBeUpdatedUnWrapped);
         }
       }

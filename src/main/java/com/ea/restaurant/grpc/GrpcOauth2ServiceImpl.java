@@ -6,10 +6,9 @@ import com.ea.restaurant.util.GrpcUtil;
 import com.nimbusds.jose.JOSEException;
 import com.nimbusds.jose.proc.BadJOSEException;
 import io.grpc.stub.StreamObserver;
-import net.devh.boot.grpc.server.service.GrpcService;
-
 import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
+import net.devh.boot.grpc.server.service.GrpcService;
 
 @GrpcService
 public class GrpcOauth2ServiceImpl extends Oauth2ServiceGrpc.Oauth2ServiceImplBase {
@@ -21,32 +20,34 @@ public class GrpcOauth2ServiceImpl extends Oauth2ServiceGrpc.Oauth2ServiceImplBa
 
   @Override
   public void loginClient(
-      NotParametersRequest request, StreamObserver<Oauth2TokenResponse> responseObserver) throws UnsupportedEncodingException, JOSEException {
+      NotParametersRequest request, StreamObserver<Oauth2TokenResponse> responseObserver)
+      throws UnsupportedEncodingException, JOSEException {
 
-      var authMetadata = GrpcUtil.getAuthMetadataFromInterceptor();
+    var authMetadata = GrpcUtil.getAuthMetadataFromInterceptor();
 
-      var credentials = GrpcUtil.getCredentialsFromBasicAuthToken(authMetadata);
+    var credentials = GrpcUtil.getCredentialsFromBasicAuthToken(authMetadata);
 
-      var loginClient =
-          this.oauth2Service.loginClient(credentials.clientId(), credentials.clientSecret());
-      responseObserver.onNext(
-          GrpcOauth2TokenResponseMapper.mapLoginResponseToGrpcLoginResponse(loginClient));
+    var loginClient =
+        this.oauth2Service.loginClient(credentials.clientId(), credentials.clientSecret());
+    responseObserver.onNext(
+        GrpcOauth2TokenResponseMapper.mapLoginResponseToGrpcLoginResponse(loginClient));
 
     responseObserver.onCompleted();
   }
 
   @Override
   public void refreshToken(
-      RefreshTokenRequest request, StreamObserver<Oauth2TokenResponse> responseObserver) throws BadJOSEException, ParseException, JOSEException {
+      RefreshTokenRequest request, StreamObserver<Oauth2TokenResponse> responseObserver)
+      throws BadJOSEException, ParseException, JOSEException {
 
-      var refreshTokenResponse =
-          this.oauth2Service.refreshToken(
-              request.getRefreshToken(),
-              request.getAccessToken(),
-              request.getClientId(),
-              request.getClientSecret());
-      responseObserver.onNext(
-          GrpcOauth2TokenResponseMapper.mapLoginResponseToGrpcLoginResponse(refreshTokenResponse));
+    var refreshTokenResponse =
+        this.oauth2Service.refreshToken(
+            request.getRefreshToken(),
+            request.getAccessToken(),
+            request.getClientId(),
+            request.getClientSecret());
+    responseObserver.onNext(
+        GrpcOauth2TokenResponseMapper.mapLoginResponseToGrpcLoginResponse(refreshTokenResponse));
 
     responseObserver.onCompleted();
   }

@@ -6,6 +6,7 @@ import com.ea.restaurant.exceptions.EntityNotFoundException;
 import com.ea.restaurant.repository.UserRepository;
 import com.ea.restaurant.service.UserService;
 import java.time.Instant;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
@@ -24,7 +25,7 @@ public class UserServiceImpl implements UserService {
   @Override
   public User create(User user) {
     user.setEntityStatus(Status.ACTIVE);
-    user.setCreatedDate(Instant.now());
+    user.setCreatedDate(Date.from(Instant.now()));
     user.setUpdatedBy(user.getCreatedBy());
     user.setUpdatedDate(user.getCreatedDate());
     return userRepository.save(user);
@@ -52,7 +53,7 @@ public class UserServiceImpl implements UserService {
   @Override
   public User updateById(Long id, User user) {
     User userToUpdate = this.findEnabledById(id).orElseThrow(EntityNotFoundException::new);
-    userToUpdate.setUpdatedDate(Instant.now());
+    userToUpdate.setUpdatedDate(Date.from(Instant.now()));
     userToUpdate.setUpdatedBy(user.getUpdatedBy());
     userToUpdate.setName(Optional.ofNullable(user.getName()).orElseGet(userToUpdate::getName));
     userToUpdate.setLastName(

@@ -9,7 +9,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.MappedSuperclass;
 import jakarta.validation.constraints.NotNull;
-import java.time.Instant;
+import java.util.Date;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -33,8 +33,8 @@ public abstract class BaseEntity {
   @Enumerated(EnumType.STRING)
   private Status entityStatus;
 
-  private Instant createdDate;
-  private Instant updatedDate;
+  private Date createdDate;
+  private Date updatedDate;
 
   public BaseEntity(Long id) {
     this.id = id;

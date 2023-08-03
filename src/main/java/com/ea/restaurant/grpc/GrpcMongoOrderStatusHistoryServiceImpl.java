@@ -22,20 +22,20 @@ public class GrpcMongoOrderStatusHistoryServiceImpl extends MongoOrderStatusHist
       MongoOrderStatusHistoriesFromPythonRequest request,
       StreamObserver<InsertMongoOrderStatusHistoriesResponse> responseObserver) {
 
-      var mappedMongoOrderStatusHistories =
-          GrpcMongoOrderStatusHistoryMapper.mapGrpcMongoOrderStatusToMongoOrderStatusHistoryList(
-              request.getMongoOrderStatusHistoryList());
+    var mappedMongoOrderStatusHistories =
+        GrpcMongoOrderStatusHistoryMapper.mapGrpcMongoOrderStatusToMongoOrderStatusHistoryList(
+            request.getMongoOrderStatusHistoryList());
 
-      var savedMongoOrderStatusHistories =
-          this.mongoOrderStatusHistoryService.insertMongoOrderStatusHistories(
-              mappedMongoOrderStatusHistories);
-      var mongoOrderStatusHistoriesUuids =
-          GrpcMongoOrderStatusHistoryUtil.getMongoOrderStatusUuids(savedMongoOrderStatusHistories);
+    var savedMongoOrderStatusHistories =
+        this.mongoOrderStatusHistoryService.insertMongoOrderStatusHistories(
+            mappedMongoOrderStatusHistories);
+    var mongoOrderStatusHistoriesUuids =
+        GrpcMongoOrderStatusHistoryUtil.getMongoOrderStatusUuids(savedMongoOrderStatusHistories);
 
-      responseObserver.onNext(
-          InsertMongoOrderStatusHistoriesResponse.newBuilder()
-              .addAllUuids(mongoOrderStatusHistoriesUuids)
-              .build());
+    responseObserver.onNext(
+        InsertMongoOrderStatusHistoriesResponse.newBuilder()
+            .addAllUuids(mongoOrderStatusHistoriesUuids)
+            .build());
 
     responseObserver.onCompleted();
   }

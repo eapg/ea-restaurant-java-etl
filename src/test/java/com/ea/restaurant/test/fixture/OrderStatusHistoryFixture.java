@@ -5,6 +5,7 @@ import com.ea.restaurant.constants.OrderStatus;
 import com.ea.restaurant.constants.Status;
 import com.ea.restaurant.entities.OrderStatusHistory;
 import java.time.Instant;
+import java.util.Date;
 import java.util.Optional;
 
 public class OrderStatusHistoryFixture {
@@ -28,9 +29,9 @@ public class OrderStatusHistoryFixture {
     orderStatusHistory.setOrderId(
         Optional.ofNullable(orderStatusHistoryExample.getOrderId()).orElse(ORDER_ID));
     orderStatusHistory.setFromTime(
-        Optional.ofNullable(orderStatusHistoryExample.getFromTime()).orElse(FROM_TIME));
+        Optional.ofNullable(orderStatusHistoryExample.getFromTime()).orElse(Date.from(FROM_TIME)));
     orderStatusHistory.setToTime(
-        Optional.ofNullable(orderStatusHistoryExample.getToTime()).orElse(TO_TIME));
+        Optional.ofNullable(orderStatusHistoryExample.getToTime()).orElse(Date.from(TO_TIME)));
     orderStatusHistory.setFromStatus(
         Optional.ofNullable(orderStatusHistoryExample.getFromStatus()).orElse(FROM_STATUS));
     orderStatusHistory.setToStatus(
@@ -43,13 +44,15 @@ public class OrderStatusHistoryFixture {
     orderStatusHistory.setEntityStatus(
         Optional.ofNullable(orderStatusHistoryExample.getEntityStatus()).orElse(ENTITY_STATUS));
     orderStatusHistory.setCreatedDate(
-        Optional.ofNullable(orderStatusHistoryExample.getCreatedDate()).orElse(CREATED_DATE));
+        Optional.ofNullable(orderStatusHistoryExample.getCreatedDate())
+            .orElse(Date.from(CREATED_DATE)));
     orderStatusHistory.setCreatedBy(
         Optional.ofNullable(orderStatusHistoryExample.getCreatedBy()).orElse(CREATED_BY));
     orderStatusHistory.setUpdatedBy(
         Optional.ofNullable(orderStatusHistoryExample.getUpdatedBy()).orElse(UPDATED_BY));
     orderStatusHistory.setUpdatedDate(
-        Optional.ofNullable(orderStatusHistoryExample.getUpdatedDate()).orElse(UPDATED_DATE));
+        Optional.ofNullable(orderStatusHistoryExample.getUpdatedDate())
+            .orElse(Date.from(UPDATED_DATE)));
     return orderStatusHistory;
   }
 
@@ -58,7 +61,7 @@ public class OrderStatusHistoryFixture {
     var orderStatusHistoryExample = new OrderStatusHistory(id);
     orderStatusHistoryExample.setOrderId(orderId);
     orderStatusHistoryExample.setFromStatus(fromStatus);
-    orderStatusHistoryExample.setFromTime(fromTime);
+    orderStatusHistoryExample.setFromTime(Date.from(fromTime));
 
     return buildOrderStatusHistory(orderStatusHistoryExample);
   }
