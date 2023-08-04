@@ -3,6 +3,7 @@ package com.ea.restaurant.test.fixture;
 import com.ea.restaurant.constants.Status;
 import com.ea.restaurant.entities.AppClient;
 import java.time.Instant;
+import java.util.Date;
 import java.util.Optional;
 
 public class AppClientFixture {
@@ -34,10 +35,12 @@ public class AppClientFixture {
             .orElse(REFRESH_TOKEN_EXPIRATION_TIME));
     appClient.setEntityStatus(
         Optional.ofNullable(appClient.getEntityStatus()).orElse(ENTITY_STATUS));
-    appClient.setCreatedDate(Optional.ofNullable(appClient.getCreatedDate()).orElse(CREATED_DATE));
+    appClient.setCreatedDate(
+        Optional.ofNullable(appClient.getCreatedDate()).orElse(Date.from(CREATED_DATE)));
     appClient.setCreatedBy(Optional.ofNullable(appClient.getCreatedBy()).orElse(CREATED_BY));
     appClient.setUpdatedBy(Optional.ofNullable(appClient.getUpdatedBy()).orElse(UPDATED_BY));
-    appClient.setUpdatedDate(Optional.ofNullable(appClient.getUpdatedDate()).orElse(UPDATED_DATE));
+    appClient.setUpdatedDate(
+        Optional.ofNullable(appClient.getUpdatedDate()).orElse(Date.from(UPDATED_DATE)));
     return appClient;
   }
 

@@ -3,6 +3,7 @@ package com.ea.restaurant.test.fixture;
 import com.ea.restaurant.constants.Status;
 import com.ea.restaurant.entities.AppClientScope;
 import java.time.Instant;
+import java.util.Date;
 import java.util.Optional;
 
 public class AppClientScopeFixture {
@@ -24,13 +25,13 @@ public class AppClientScopeFixture {
     appClientScope.setEntityStatus(
         Optional.ofNullable(appClientScope.getEntityStatus()).orElse(ENTITY_STATUS));
     appClientScope.setCreatedDate(
-        Optional.ofNullable(appClientScope.getCreatedDate()).orElse(CREATED_DATE));
+        Optional.ofNullable(appClientScope.getCreatedDate()).orElse(Date.from(CREATED_DATE)));
     appClientScope.setCreatedBy(
         Optional.ofNullable(appClientScope.getCreatedBy()).orElse(CREATED_BY));
     appClientScope.setUpdatedBy(
         Optional.ofNullable(appClientScope.getUpdatedBy()).orElse(UPDATED_BY));
     appClientScope.setUpdatedDate(
-        Optional.ofNullable(appClientScope.getUpdatedDate()).orElse(UPDATED_DATE));
+        Optional.ofNullable(appClientScope.getUpdatedDate()).orElse(Date.from(UPDATED_DATE)));
     return appClientScope;
   }
 

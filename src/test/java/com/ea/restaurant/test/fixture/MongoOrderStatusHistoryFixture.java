@@ -5,6 +5,7 @@ import com.ea.restaurant.constants.OrderStatus;
 import com.ea.restaurant.constants.Status;
 import com.ea.restaurant.document.MongoOrderStatusHistory;
 import java.time.Instant;
+import java.util.Date;
 import java.util.Optional;
 import org.bson.types.ObjectId;
 
@@ -29,9 +30,10 @@ public class MongoOrderStatusHistoryFixture {
     mongoOrderStatusHistory.setOrderId(
         Optional.ofNullable(mongoOrderStatusHistoryExample.getOrderId()).orElse(ORDER_ID));
     mongoOrderStatusHistory.setFromTime(
-        Optional.ofNullable(mongoOrderStatusHistoryExample.getFromTime()).orElse(FROM_TIME));
+        Optional.ofNullable(mongoOrderStatusHistoryExample.getFromTime())
+            .orElse(Date.from(FROM_TIME)));
     mongoOrderStatusHistory.setToTime(
-        Optional.ofNullable(mongoOrderStatusHistoryExample.getToTime()).orElse(TO_TIME));
+        Optional.ofNullable(mongoOrderStatusHistoryExample.getToTime()).orElse(Date.from(TO_TIME)));
     mongoOrderStatusHistory.setFromStatus(
         Optional.ofNullable(mongoOrderStatusHistoryExample.getFromStatus()).orElse(FROM_STATUS));
     mongoOrderStatusHistory.setToStatus(
@@ -42,13 +44,15 @@ public class MongoOrderStatusHistoryFixture {
         Optional.ofNullable(mongoOrderStatusHistoryExample.getEntityStatus())
             .orElse(ENTITY_STATUS));
     mongoOrderStatusHistory.setCreatedDate(
-        Optional.ofNullable(mongoOrderStatusHistoryExample.getCreatedDate()).orElse(CREATED_DATE));
+        Optional.ofNullable(mongoOrderStatusHistoryExample.getCreatedDate())
+            .orElse(Date.from(CREATED_DATE)));
     mongoOrderStatusHistory.setCreatedBy(
         Optional.ofNullable(mongoOrderStatusHistoryExample.getCreatedBy()).orElse(CREATED_BY));
     mongoOrderStatusHistory.setUpdatedBy(
         Optional.ofNullable(mongoOrderStatusHistoryExample.getUpdatedBy()).orElse(UPDATED_BY));
     mongoOrderStatusHistory.setUpdatedDate(
-        Optional.ofNullable(mongoOrderStatusHistoryExample.getUpdatedDate()).orElse(UPDATED_DATE));
+        Optional.ofNullable(mongoOrderStatusHistoryExample.getUpdatedDate())
+            .orElse(Date.from(UPDATED_DATE)));
     return mongoOrderStatusHistory;
   }
 
@@ -57,7 +61,7 @@ public class MongoOrderStatusHistoryFixture {
     var mongoOrderStatusHistoryExample = new MongoOrderStatusHistory(id);
     mongoOrderStatusHistoryExample.setOrderId(orderId);
     mongoOrderStatusHistoryExample.setFromStatus(fromStatus);
-    mongoOrderStatusHistoryExample.setFromTime(fromTime);
+    mongoOrderStatusHistoryExample.setFromTime(Date.from(fromTime));
 
     return buildMongoOrderStatusHistory(mongoOrderStatusHistoryExample);
   }

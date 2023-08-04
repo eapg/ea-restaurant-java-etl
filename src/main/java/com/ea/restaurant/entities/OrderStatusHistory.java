@@ -7,7 +7,7 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
-import java.time.Instant;
+import java.util.Date;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,8 +21,8 @@ import lombok.Setter;
 @Table(name = "order_status_histories")
 public class OrderStatusHistory extends BaseEntity {
   @NotNull private Long orderId;
-  private Instant fromTime;
-  private Instant toTime;
+  private Date fromTime;
+  private Date toTime;
 
   @Enumerated(EnumType.STRING)
   private OrderStatus fromStatus;

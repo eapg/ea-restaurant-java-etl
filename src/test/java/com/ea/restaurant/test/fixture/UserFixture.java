@@ -5,6 +5,7 @@ import com.ea.restaurant.constants.Status;
 import com.ea.restaurant.constants.UserType;
 import com.ea.restaurant.entities.User;
 import java.time.Instant;
+import java.util.Date;
 import java.util.Optional;
 
 public final class UserFixture {
@@ -30,10 +31,10 @@ public final class UserFixture {
     user.setRoles(Optional.ofNullable(user.getRoles()).orElse(ROLES));
     user.setType(Optional.ofNullable(user.getType()).orElse(TYPE));
     user.setEntityStatus(Optional.ofNullable(user.getEntityStatus()).orElse(ENTITY_STATUS));
-    user.setCreatedDate(Optional.ofNullable(user.getCreatedDate()).orElse(CREATED_DATE));
+    user.setCreatedDate(Optional.ofNullable(user.getCreatedDate()).orElse(Date.from(CREATED_DATE)));
     user.setCreatedBy(Optional.ofNullable(user.getCreatedBy()).orElse(CREATED_BY));
     user.setUpdatedBy(Optional.ofNullable(user.getUpdatedBy()).orElse(UPDATED_BY));
-    user.setUpdatedDate(Optional.ofNullable(user.getUpdatedDate()).orElse(UPDATED_DATE));
+    user.setUpdatedDate(Optional.ofNullable(user.getUpdatedDate()).orElse(Date.from(UPDATED_DATE)));
     return user;
   }
 

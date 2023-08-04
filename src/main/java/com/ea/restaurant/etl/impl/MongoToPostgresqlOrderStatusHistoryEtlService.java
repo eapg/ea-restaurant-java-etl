@@ -54,7 +54,7 @@ public class MongoToPostgresqlOrderStatusHistoryEtlService
     var lastOrderStatusHistories =
         this.orderStatusHistoryService.findLastOrderStatusHistoriesByOrderIds(orderIds);
 
-    if (lastOrderStatusHistories != null) {
+    if (!lastOrderStatusHistories.isEmpty()) {
       var updatedOrderStatusHistories =
           OrderStatusHistoryUtil.updateLastOrderStatusHistory(
               lastOrderStatusHistories, transformedData, UserType.INTERNAL.getId());

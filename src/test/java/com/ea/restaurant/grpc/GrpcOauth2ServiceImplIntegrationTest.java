@@ -172,7 +172,8 @@ public class GrpcOauth2ServiceImplIntegrationTest {
   }
 
   @Test
-  public void whenRefreshExpireAccessToken_ShouldReturnNewAccessToken() throws JOSEException, BadJOSEException, ParseException {
+  public void whenRefreshExpireAccessToken_ShouldReturnNewAccessToken()
+      throws JOSEException, BadJOSEException, ParseException {
     try (var mockedOauth2Util = Oauth2TestUtil.mockOauth2Util(appClient, appClientScope)) {
 
       mockedOauth2Util

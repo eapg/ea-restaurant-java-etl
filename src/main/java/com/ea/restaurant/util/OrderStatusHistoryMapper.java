@@ -2,6 +2,7 @@ package com.ea.restaurant.util;
 
 import com.ea.restaurant.document.MongoOrderStatusHistory;
 import com.ea.restaurant.entities.OrderStatusHistory;
+import java.util.Date;
 
 public class OrderStatusHistoryMapper {
   public static OrderStatusHistory mapMongoOrderStatusToPostgresqlOrderStatus(
@@ -12,13 +13,23 @@ public class OrderStatusHistoryMapper {
     orderStatusHistory.setEtlStatus(mongoOrderStatusHistory.getEtlStatus());
     orderStatusHistory.setFromStatus(mongoOrderStatusHistory.getFromStatus());
     orderStatusHistory.setToStatus(mongoOrderStatusHistory.getToStatus());
-    orderStatusHistory.setFromTime(mongoOrderStatusHistory.getFromTime());
-    orderStatusHistory.setToTime(mongoOrderStatusHistory.getToTime());
+    if (mongoOrderStatusHistory.getToTime() != null) {
+      orderStatusHistory.setToTime(
+          Date.from(
+              DateTimeUtil.getUtcFromInstant(mongoOrderStatusHistory.getToTime().toInstant())));
+    }
+    orderStatusHistory.setFromTime(
+        Date.from(
+            DateTimeUtil.getUtcFromInstant(mongoOrderStatusHistory.getFromTime().toInstant())));
     orderStatusHistory.setEntityStatus(mongoOrderStatusHistory.getEntityStatus());
     orderStatusHistory.setCreatedBy(mongoOrderStatusHistory.getCreatedBy());
     orderStatusHistory.setUpdatedBy(mongoOrderStatusHistory.getUpdatedBy());
-    orderStatusHistory.setCreatedDate(mongoOrderStatusHistory.getCreatedDate());
-    orderStatusHistory.setUpdatedDate(mongoOrderStatusHistory.getUpdatedDate());
+    orderStatusHistory.setCreatedDate(
+        Date.from(
+            DateTimeUtil.getUtcFromInstant(mongoOrderStatusHistory.getCreatedDate().toInstant())));
+    orderStatusHistory.setUpdatedDate(
+        Date.from(
+            DateTimeUtil.getUtcFromInstant(mongoOrderStatusHistory.getUpdatedDate().toInstant())));
     return orderStatusHistory;
   }
 }

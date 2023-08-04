@@ -23,19 +23,27 @@ public class GrpcMongoOrderStatusHistoryMapper {
                 .map(mongoOrder -> mongoOrder.getToStatus().getValue())
                 .map(OrderStatus::valueOf)
                 .orElse(null))
-        .fromTime(Instant.ofEpochMilli(mongoOrderStatusHistory.getFromTime()))
+        //        .fromTime(Date.from(Instant.ofEpochMilli(mongoOrderStatusHistory.getFromTime())))
+        .fromTime(
+            DateTimeUtil.getDateFromInstantWithTimeZone(
+                Instant.ofEpochMilli(mongoOrderStatusHistory.getFromTime())))
         .toTime(
             Optional.ofNullable(mongoOrderStatusHistory)
                 .filter(com.ea.restaurant.grpc.MongoOrderStatusHistory::hasToStatus)
                 .map(mongoOrder -> mongoOrder.getToTime().getValue())
                 .map(Instant::ofEpochMilli)
+                .map(DateTimeUtil::getDateFromInstantWithTimeZone)
                 .orElse(null))
         .etlStatus(EtlStatus.valueOf(mongoOrderStatusHistory.getEtlStatus()))
         .entityStatus(Status.valueOf(mongoOrderStatusHistory.getEntityStatus()))
         .createdBy(mongoOrderStatusHistory.getCreatedBy())
         .updatedBy(mongoOrderStatusHistory.getUpdatedBy())
-        .createdDate(Instant.ofEpochMilli(mongoOrderStatusHistory.getCreatedDate()))
-        .updatedDate(Instant.ofEpochMilli(mongoOrderStatusHistory.getUpdatedDate()))
+        .createdDate(
+            DateTimeUtil.getDateFromInstantWithTimeZone(
+                Instant.ofEpochMilli(mongoOrderStatusHistory.getCreatedDate())))
+        .updatedDate(
+            DateTimeUtil.getDateFromInstantWithTimeZone(
+                Instant.ofEpochMilli(mongoOrderStatusHistory.getUpdatedDate())))
         .build();
   }
 

@@ -9,7 +9,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotNull;
-import java.time.Instant;
+import java.util.Date;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -37,10 +37,10 @@ public class MongoOrderStatusHistory {
   private Long orderId;
 
   @Field("from_time")
-  private Instant fromTime;
+  private Date fromTime;
 
   @Field("to_time")
-  private Instant toTime;
+  private Date toTime;
 
   @Field("from_status")
   @Enumerated(EnumType.STRING)
@@ -68,10 +68,10 @@ public class MongoOrderStatusHistory {
   private Status entityStatus;
 
   @Field("created_date")
-  private Instant createdDate;
+  private Date createdDate;
 
   @Field("updated_date")
-  private Instant updatedDate;
+  private Date updatedDate;
 
   public MongoOrderStatusHistory(ObjectId id) {
     this.id = id;
