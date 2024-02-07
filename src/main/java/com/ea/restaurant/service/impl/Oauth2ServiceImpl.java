@@ -7,9 +7,9 @@ import com.ea.restaurant.dtos.Oauth2TokenResponseDto;
 import com.ea.restaurant.entities.AppAccessToken;
 import com.ea.restaurant.entities.AppClient;
 import com.ea.restaurant.entities.AppRefreshToken;
-import com.ea.restaurant.exceptions.BcryptException;
 import com.ea.restaurant.exceptions.EntityNotFoundException;
 import com.ea.restaurant.exceptions.WrongCredentialsException;
+import com.ea.restaurant.passwordEncoder.impl.PasswordEncoder;
 import com.ea.restaurant.repository.AppAccessTokenRepository;
 import com.ea.restaurant.repository.AppClientRepository;
 import com.ea.restaurant.repository.AppClientScopeRepository;
@@ -21,7 +21,6 @@ import com.nimbusds.jose.proc.BadJOSEException;
 import com.nimbusds.jwt.proc.BadJWTException;
 import java.text.ParseException;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,9 +32,11 @@ public class Oauth2ServiceImpl implements Oauth2Service {
   private final AppClientScopeRepository appClientScopeRepository;
   private final AppRefreshTokenRepository appRefreshTokenRepository;
   private final AppAccessTokenRepository appAccessTokenRepository;
+  private final PasswordEncoder passwordEncoder;
 
   public Oauth2ServiceImpl(
       @Value("${oauth2.secret.key}") String oauth2SecretKey,
+      PasswordEncoder passwordEncoder,
       AppClientRepository appClientRepository,
       AppClientScopeRepository appClientScopeRepository,
       AppAccessTokenRepository appAccessTokenRepository,
@@ -45,6 +46,7 @@ public class Oauth2ServiceImpl implements Oauth2Service {
     this.appClientScopeRepository = appClientScopeRepository;
     this.appAccessTokenRepository = appAccessTokenRepository;
     this.appRefreshTokenRepository = appRefreshTokenRepository;
+    this.passwordEncoder = passwordEncoder;
   }
 
   @Transactional(rollbackFor = Exception.class)
@@ -153,8 +155,8 @@ public class Oauth2ServiceImpl implements Oauth2Service {
             .findByClientIdAndEntityStatus(clientId, Status.ACTIVE)
             .orElseThrow(WrongCredentialsException::new);
 
-    if (!(BCrypt.checkpw(clientSecret, client.getClientSecret()))) {
-      throw new BcryptException();
+    if (!this.passwordEncoder.validatePassword(clientSecret, client.getClientSecret())) {
+      throw new WrongCredentialsException();
     }
   }
 }

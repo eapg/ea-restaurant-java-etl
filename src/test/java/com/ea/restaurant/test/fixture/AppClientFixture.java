@@ -11,7 +11,7 @@ public class AppClientFixture {
   public static final String TESTING_CLIENT_NAME = "TEST";
   public static final String TESTING_CLIENT_ID = "TEST01";
   public static final String TESTING_CLIENT_SECRET =
-      "$2b$12$Z3rYJmr5ZuWBJ7h0IdnZ8OmxX3CyVQ3NuVsTkKI4cKx9hZmeyC7yW"; // TEST-CLIENT-SECRET
+      "VEVTVC1DTElFTlQtU0VDUkVU"; // base64 TEST-CLIENT-SECRET
   public static final Integer ACCESS_TOKEN_EXPIRATION_TIME = 10;
   public static final Integer REFRESH_TOKEN_EXPIRATION_TIME = 10;
   public static final Long CREATED_BY = 1L;
