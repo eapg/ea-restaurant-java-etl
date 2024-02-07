@@ -1,9 +1,12 @@
 package com.ea.restaurant.service.impl;
 
+import com.ea.restaurant.constants.PasswordEncoderType;
 import com.ea.restaurant.constants.Status;
 import com.ea.restaurant.entities.AppClient;
 import com.ea.restaurant.entities.AppClientScope;
 import com.ea.restaurant.entities.AppRefreshToken;
+import com.ea.restaurant.passwordEncoder.impl.PasswordEncoder;
+import com.ea.restaurant.passwordEncoder.manager.PasswordEncoderManager;
 import com.ea.restaurant.repository.AppAccessTokenRepository;
 import com.ea.restaurant.repository.AppClientRepository;
 import com.ea.restaurant.repository.AppClientScopeRepository;
@@ -47,9 +50,12 @@ public class Oauth2ServiceImplTest {
     appClientScopeRepository = Mockito.mock(AppClientScopeRepository.class);
     appAccessTokenRepository = Mockito.mock(AppAccessTokenRepository.class);
     appRefreshTokenRepository = Mockito.mock(AppRefreshTokenRepository.class);
+    PasswordEncoder passwordEncoder =
+        PasswordEncoderManager.createPasswordEncoder(PasswordEncoderType.BASE64.toString());
     oauth2Service =
         new Oauth2ServiceImpl(
             Oauth2Fixture.SECRET_KEY,
+            passwordEncoder,
             appClientRepository,
             appClientScopeRepository,
             appAccessTokenRepository,

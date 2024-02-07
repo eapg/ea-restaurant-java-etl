@@ -1,10 +1,13 @@
 package com.ea.restaurant.grpc;
 
+import com.ea.restaurant.constants.PasswordEncoderType;
 import com.ea.restaurant.constants.Status;
 import com.ea.restaurant.dtos.Oauth2TokenResponseDto;
 import com.ea.restaurant.entities.AppClient;
 import com.ea.restaurant.entities.AppClientScope;
 import com.ea.restaurant.entities.AppRefreshToken;
+import com.ea.restaurant.passwordEncoder.impl.PasswordEncoder;
+import com.ea.restaurant.passwordEncoder.manager.PasswordEncoderManager;
 import com.ea.restaurant.record.Oauth2ClientCredentials;
 import com.ea.restaurant.repository.AppAccessTokenRepository;
 import com.ea.restaurant.repository.AppClientRepository;
@@ -53,10 +56,13 @@ public class GrpcOauth2ServiceImplIntegrationTest {
     appClientScopeRepository = Mockito.mock(AppClientScopeRepository.class);
     appAccessTokenRepository = Mockito.mock(AppAccessTokenRepository.class);
     appRefreshTokenRepository = Mockito.mock(AppRefreshTokenRepository.class);
+    PasswordEncoder passwordEncoder =
+        PasswordEncoderManager.createPasswordEncoder(PasswordEncoderType.BASE64.toString());
     oauth2Service =
         Mockito.spy(
             new Oauth2ServiceImpl(
                 Oauth2Fixture.SECRET_KEY,
+                passwordEncoder,
                 appClientRepository,
                 appClientScopeRepository,
                 appAccessTokenRepository,
